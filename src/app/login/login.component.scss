@@ -1,0 +1,489 @@
+/*/////////////////////////////////////////*/
+$echelle: 30;
+$clr-corps: rgb(7, 7, 136);
+$w-corps: 5px * $echelle;
+$h-corps: $w-corps; 
+
+/*///////////////////////////////////*/
+$clr-lune: rgb(126, 126, 126);
+$clr-lune-border: rgb(77, 76, 76);
+$clr-lune-shadow: rgb(167, 167, 167);
+$clr-cratere: rgb(143, 143, 143);
+$clr-cratere-shadow: rgb(131, 131, 131);
+$w-lune: 200px;
+$h-lune: 200px;
+$w-cratere1: 50px;
+$h-cratere1: 30px;
+$w-cratere2: 30px;
+$h-cratere2: 30px;
+$w-cratere3: 20px;
+$h-cratere3: 20px;
+$w-cratere4: 10px;
+$h-cratere4: 10px;
+
+$clr-card: rgb(4, 4, 63);
+$clr-input-border: rgb(17, 17, 80);
+$clr-input: rgb(0, 0, 240);
+
+$sz-border-rad-card: 20px; 
+
+$marge-card: 20px;
+
+$w-card: $w-corps + $w-corps / 2;
+$w-input: 100%;
+$h-input: 30px;
+$h-label: 5px;
+$h-card: $h-corps + $h-input * 8 + 15px * 2 +$marge-card;
+
+$w-deco: 80px;
+$h-deco: 40px;
+
+$sz-border-in-btn: 2px;
+$nbr-deco: 3;
+$h-label: 15px;
+
+$pos-x-corps: ($w-card - $w-corps)/2; 
+$pos-y-corps: 20px;
+
+$pos-x-card: 200px;
+$pos-y-card: 0px;
+$pos-x-lune: $pos-x-card + $w-card + $w-deco + 10px;
+$pos-y-lune: 0px;
+
+.center{
+    margin: 0 auto;
+}
+
+.container{
+    & .card{
+        margin-top: 5%;
+        width: $w-card;
+        background-color: $clr-card;
+            width: $w-card;
+            border-radius: 0% $sz-border-rad-card $sz-border-rad-card 0%;
+        & .card-body{
+            padding: 0px 0px 10px 0px ;
+            & .deco-top{
+                position: absolute;
+                &-deco1{
+                    background-color: $clr-card;
+                }
+                &-deco2{
+                    background-color: rgb(0, 0, 29);
+                }
+                &-deco3{
+                    background-color: $clr-card;
+                }
+        
+                @for $i from 1 through $nbr-deco{
+                    &-deco#{$i}{
+                        position: inherit;
+                        width: $w-deco;
+                        height: $h-deco;
+                        border-radius: 50px;
+                        transform: translate(-($h-deco/2) * ($nbr-deco - $i + 1), ($i - 1) * $h-deco);
+                    } 
+                }
+            }
+            & .deco-bottom{
+                &-deco4{
+                    background-color: $clr-card;
+                }
+                &-deco5{
+                    background-color: rgb(0, 0, 29);
+                }
+                &-deco6{
+                    background-color: $clr-card;
+                }
+            }
+            & .formulaire{
+                margin-left: 15%;
+                margin-bottom: 30px;
+                width: 70%;
+                & p , input{
+                    height: $h-label;
+                    color: white;
+                    font-family: sans-serif;
+                    font-weight: bold;
+                }
+                
+                & input{
+                    background-color: $clr-input;
+                    width: $w-input;
+                    height: $h-input;
+                    border-radius: $h-input;
+                    cursor: pointer;
+                    border: $sz-border-in-btn solid $clr-input-border;
+                }
+                
+                & .button{
+                    background-color: $clr-input-border;
+                    margin-top: 20px;
+                    margin-left: 4px;
+                    width: $w-input;
+                    height: $h-input+$sz-border-in-btn;
+                    border-radius: 30px;
+                    border: 2px solid $clr-input-border;
+                    color: white;
+                    font-family: Tahoma, sans-serif;
+                    font-weight: bold;
+                    font-size: 20px;
+                } 
+            }  
+        }
+    }
+}
+
+.lune{
+    position: absolute;
+    background-color: $clr-lune;
+    width: $w-lune;
+    height: $h-lune;
+    border-radius: 50%;
+    border: 1px solid $clr-lune-border;
+    box-shadow: 2px 2px 2px$clr-lune-border;
+    overflow: hidden;
+    margin-left: 50px;
+    & > div{
+        position: absolute;
+    }
+    &-shadow{
+        background-color: $clr-lune-shadow;
+        width: $w-lune;
+        height: $h-lune;
+        border-radius: 50%;
+        transform: translate(-20px, -20px);
+    }
+    & .cratere1{
+        background-color: $clr-cratere;
+        width: $w-cratere1;
+        height: $h-cratere1;
+        transform: translate(20px,20px);
+        border-bottom: 4px solid $clr-cratere-shadow;
+        border-right: 4px solid $clr-cratere-shadow;
+        border-radius: 150% 50% 150% 30%;
+        transform: translate(30px, 30px);
+    }
+    & .cratere2{
+        background-color: $clr-cratere;
+        width: $w-cratere2;
+        height: $h-cratere2;
+        transform: translate(20px,20px);
+        border-bottom: 5px solid $clr-cratere-shadow;
+        border-right: 5px solid $clr-cratere-shadow;
+        border-radius: 100% 50% 100% 30%;
+        transform: translate(100px, 30px);
+    }
+    & .cratere3{
+        background-color: $clr-cratere;
+        width: $w-cratere3;
+        height: $h-cratere3;
+        transform: translate(20px,20px);
+        border-bottom: 5px solid $clr-cratere-shadow;
+        border-right: 5px solid $clr-cratere-shadow;
+        border-radius: 50% 50% 50% 50%;
+        transform: translate(50px, 80px);
+    }
+}
+
+/*/////////////////////////////////////////*/
+$clr: rgb(168, 165, 165);
+$clr-shadow: rgb(131, 127, 127);
+$clr-vitre: rgba(0, 0, 0, 1);
+$clr-a-vitre: rgb(94, 93, 93);
+$clr-oreille: rgb(37, 37, 37);
+$clr-visage: gray;
+$clr-lisiaire: linear-gradient(to right, rgb(94, 94, 94), rgb(0, 0, 0));
+$border: 4px;
+
+$w-tete: 3px * $echelle;
+$h-tete: 2.4px * $echelle;
+$pos-x-tete: ($w-corps - $w-tete) / 2;
+$pos-y-tete: $w-tete / 4; 
+
+$w-oreille: 0.3px * $echelle;
+$h-oreille: 0.8px * $echelle;
+$pos-x-oreille1: 0.2px * $echelle;
+$pos-y-oreille1: 1px * $echelle;
+$pos-x-oreille2: $w-tete - $w-oreille;
+$pos-y-oreille2: $pos-y-oreille1;
+
+$w-casque1: 2.4px * $echelle;
+$h-casque1: 2.4px * $echelle;
+$w-casque2: (2.4px / 2) * $echelle;
+$h-casque2: 2.4px * $echelle;
+$pos-x-casque1: $pos-x-oreille1 + 0.2px * $echelle;
+$pos-y-casque1: 0px * $echelle;
+$pos-x-casque2: $w-casque1 / 2;
+$pos-y-casque2: 0px * $echelle;
+
+$w-a-vitre: 2px * $echelle;
+$h-a-vitre: 1.8px * $echelle;
+$pos-x-a-vitre: 0.6px * $echelle;
+$pos-y-a-vitre: 0.4px * $echelle;
+$w-mini-oreille: 0.2px * $echelle;
+$h-mini-oreille: 0.4px * $echelle;
+$pos-x-mini-oreille1: 0px * $echelle;
+$pos-y-mini-oreille1: $h-a-vitre / 2;
+$pos-x-mini-oreille2: $w-a-vitre - $w-mini-oreille;
+$pos-y-mini-oreille2: $pos-y-mini-oreille1;
+
+$w-vitre: $w-a-vitre - (0.2px*$echelle);
+$h-vitre: $h-a-vitre - (0.2px*$echelle);
+$pos-x-vitre: 0.1px * $echelle;
+$pos-y-vitre: 0.1px * $echelle;
+
+$w-triangle: 0.2px * $echelle;
+$h-triangle: 0.2px * $echelle;
+$pos-x-triangle1: $w-a-vitre/3;
+$pos-y-triangle1: $h-a-vitre - $h-triangle + 1px; 
+$pos-x-triangle2: $w-a-vitre/3*2 - $w-triangle;
+$pos-y-triangle2: $pos-y-triangle1; 
+
+$w-visage: $w-vitre;
+$h-visage: $h-vitre;
+
+$w-oeil: 0.2px * $echelle;
+$h-oeil: $w-oeil;
+$pos-x-oeil1: $w-vitre / 4;
+$pos-y-oeil1: $h-vitre / 3;
+$pos-x-oeil2: ($w-vitre / 4)*3 - $w-oeil;
+
+$w-bouche: $w-vitre / 2 - $w-oeil * 2;
+$h-bouche: $w-vitre / 8;$pos-y-oeil2: $h-vitre / 3;
+
+$w-sourcil: $w-bouche;
+$h-sourcil: $h-oeil;
+$pos-x-sourcil1: $pos-x-oeil1 - ($w-sourcil - $w-oeil)/2;
+$pos-y-sourcil1: $pos-y-oeil1 - $h-oeil - $h-oeil/2;
+$pos-x-sourcil2: $pos-x-oeil2 - ($w-sourcil - $w-oeil)/2;
+$pos-y-sourcil2: $pos-y-oeil1 - $h-oeil - $h-oeil/2;
+
+$pos-x-bouche: $pos-x-oeil1 + $w-oeil;
+$pos-y-bouche: $pos-y-oeil1 + $w-vitre / 4;
+
+/*///////////////////////////////////*/
+
+$clr-tronc: rgb(146, 145, 145);
+$clr-boite: rgb(116, 116, 160);
+$clr-ecran: rgb(0, 0, 255);
+$w-tronc: $w-tete + $w-tete / 8;
+$h-tronc: $w-tronc;
+$pos-x-tronc: ($w-corps - $w-tronc) / 2;
+$pos-y-tronc: $pos-y-tete + $h-tete + 0.1px *$echelle;
+
+$w-poitrine: $w-tronc / 2;
+$h-poitrine: $w-tronc;
+$pos-x-poitrine: $w-tronc / 2;
+$pos-y-poitrine: 0px;
+
+$w-boite: $w-tronc / 2;
+$h-boite: $w-tronc / 3;
+$pos-x-boite: ($w-tronc - $w-boite) / 2;
+$pos-y-boite: $h-tronc / 8;
+
+$w-ecran: $w-boite / 2;
+$h-ecran: $h-boite / 2;
+$pos-x-ecran: $w-boite/3;
+$pos-y-ecran: $h-boite/6;
+
+$w-boutton: 0.2px * $echelle;
+$h-boutton: 0.2px * $echelle;
+$pos-x-boutton1: $w-boite/8;
+$pos-y-boutton1: $pos-y-ecran;
+$pos-x-boutton2: $w-boite/8;
+$pos-y-boutton2: $pos-y-ecran + $h-boutton *2;
+
+/*/////////////////////////////////////////*/
+$clr-sac: rgb(100, 99, 99);
+$w-sac: $w-tronc - $w-tronc / 8;
+$h-sac: $w-sac;
+$pos-x-sac: $pos-x-tronc + $w-tronc / 16;
+$pos-y-sac: $pos-y-tronc - $h-tete / 6;
+
+/*/////////////////////////////////////////*/
+.center{
+    margin: 0% auto;
+}
+
+.corps{
+    position: relative;
+    background-color: $clr-corps;
+    width: $w-corps;
+    height: $w-corps;
+    border-radius: 50%;
+    margin-top: 10px;
+    overflow: hidden;
+    /*transform: translate($pos-x-corps , $pos-y-corps);*/
+    & .sac{
+        position: absolute;
+        background-color: $clr-sac;
+        width: $w-sac;
+        height: $h-sac;
+        border-radius: 10% 10% 0% 0%;
+        transform: translate($pos-x-sac, $pos-y-sac);
+    }
+    & .tete{
+        position: absolute;
+        z-index: 1;
+        & > div{
+            position: absolute;
+        }
+        width: $w-tete;
+        height: $h-tete;
+        overflow: hidden;
+        position: absolute;
+        cursor: pointer;
+        transform: translate($pos-x-tete,$pos-y-tete);
+        & .casque1{
+            background-color: $clr;
+            width: $w-casque1;
+            height: $h-casque1;
+            border-radius: 80% 80% 70%70%;
+            transform: translate($pos-x-casque1,$pos-y-casque1);
+            overflow: hidden;
+            /*border-top: $border solid;*/
+            & .casque2{
+                background-color: $clr-shadow;
+                width: $w-casque2;
+                height: $h-casque2;
+                transform: translate($pos-x-casque2,$pos-y-casque2);
+                /*border-top: $border solid;*/
+            }
+        }
+        & .oreille1{
+            background-color: $clr-oreille;
+            width: $w-oreille;
+            height: $h-oreille;
+            border-radius: 100% 0% 0% 100%;
+            /*border-left: $border solid;*/
+            transform: translate($pos-x-oreille1,$pos-y-oreille1);
+        }
+        & .oreille2{
+            background-color: $clr-oreille;
+            width: $w-oreille;
+            height: $h-oreille;
+            border-radius: 0% 100% 100% 0%;
+            /*border-left: $border solid;*/
+            transform: translate($pos-x-oreille2,$pos-y-oreille2);
+        }
+        & .a-vitre{
+            position: relative;
+            background-color: $clr-a-vitre;
+            width: $w-a-vitre;
+            height: $h-a-vitre;
+            border-radius: 50% 50% 40% 40%;
+            transform: translate($pos-x-a-vitre,$pos-y-a-vitre);
+            & >div{
+                position: absolute;
+            }
+            & .mini-oreille1{
+                background-color: $clr;
+                width: $w-mini-oreille;
+                height: $h-mini-oreille;
+                transform: translate($pos-x-mini-oreille1,$pos-y-mini-oreille1);
+            }
+            & .mini-oreille2{
+                background-color: $clr-shadow;
+                width: $w-mini-oreille;
+                height: $h-mini-oreille;
+                transform: translate($pos-x-mini-oreille2,$pos-y-mini-oreille2);
+            }
+            & .vitre{
+                background: $clr-lisiaire;
+                width: $w-vitre;
+                height: $h-vitre;
+                border-radius: 50% 50% 40% 40%;
+                overflow: hidden;
+                transform: translate($pos-x-vitre,$pos-y-vitre);
+            }
+            & .triangle1{
+                background-color: $clr;
+                width: $w-triangle;
+                height: $h-triangle;
+                transform: translate($pos-x-triangle1,$pos-y-triangle1);
+            }
+            & .triangle2{
+                background-color: $clr-shadow;
+                width: $w-triangle;
+                height: $h-triangle;
+                transform: translate($pos-x-triangle2,$pos-y-triangle2);
+            }
+        }
+    }
+    & .tronc{
+        transform: translate($pos-x-tronc,$pos-y-tronc);
+        background-color: $clr;
+        position: relative;
+        width: $w-tronc;
+        height: $h-tronc;
+        border-radius: 30% 30% 0% 0%;
+        overflow: hidden;
+        & > div{
+            position: absolute;
+        }
+    
+        & .poitrine{
+            background: $clr-shadow;
+            width: $w-poitrine;
+            height: $h-poitrine;
+            transform: translate($pos-x-poitrine, $pos-y-poitrine);
+        }
+
+        & .boite{
+            position: relative;
+            background-color: $clr-sac;
+            width: $w-boite;
+            height: $h-boite;
+            border-radius: 10% 10% 10% 10%;
+            transform: translate($pos-x-boite,$pos-y-boite);
+            & > div{
+                position: absolute;
+            }
+            & .ecran{
+                background-color: $clr;
+                width: $w-ecran;
+                height: $h-ecran;
+                transform: translate($pos-x-ecran, $pos-y-ecran);
+            }
+            & .boutton1{
+                background-color: $clr;
+                width: $w-boutton;
+                height: $h-boutton;
+                border-radius: 50%;
+                transform: translate($pos-x-boutton1, $pos-y-boutton1);
+            }
+            & .boutton2{
+                background-color: $clr;
+                width: $w-boutton;
+                height: $h-boutton;
+                border-radius: 50%;
+                transform: translate($pos-x-boutton2, $pos-y-boutton2);
+            }
+        }
+    }
+}
+
+@keyframes mouvement-tete{
+    0%{
+        transform: translate($pos-x-tete, $pos-y-tete);
+    }
+    50%{
+        transform: translate($pos-x-tete, $pos-y-tete + 5px);
+    }
+    100%{
+        transform: translate($pos-x-tete - 5px, $pos-y-tete + 5px);
+    }
+}
+
+@keyframes mouvement-a-vitre{
+    0%{
+        transform: translate($pos-x-a-vitre, $pos-y-a-vitre);
+    }
+    50%{
+        transform: translate($pos-x-a-vitre, $pos-y-a-vitre + 5px);
+    }
+    100%{
+        transform: translate($pos-x-a-vitre - 3px, $pos-y-a-vitre + 5px);
+    }
+}
