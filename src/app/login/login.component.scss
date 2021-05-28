@@ -118,21 +118,20 @@ h3{
                     height: $h-input;
                     border-radius: $h-input;
                     cursor: pointer;
-                    border: $sz-border-in-btn solid $clr-input-border;
+                    border: /*$sz-border-in-btn*/  0px solid $clr-input-border;
                 }
                 
                 & .button{
                     background-color: $clr-input-border;
                     margin-top: 20px;
-                    margin-left: 4px;
                     width: $w-input;
-                    height: $h-input+$sz-border-in-btn;
+                    /*height: $h-input+$sz-border-in-btn;*/
                     border-radius: 30px;
-                    border: 2px solid $clr-input-border;
+                    border: 0px solid $clr-input-border;
                     color: white;
                     font-family: Tahoma, sans-serif;
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: 15px;
                 } 
             }  
         }

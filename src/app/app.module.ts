@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { FormsModule } from '@angular/forms';
+import { AccueilComponent } from './accueil/accueil.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { FooterComponent } from './footer/footer.component';
     LoginComponent,
     ManagerComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AccueilComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

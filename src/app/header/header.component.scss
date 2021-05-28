@@ -12,6 +12,21 @@ header{
         display: flex;
         justify-content: space-between;
     }
+    & nav{
+        & ul{
+            display: flex;
+            & li{
+                list-style: none;
+                margin-left: $espace;
+                & a:hover{
+                    color: $clr-list-hover;
+                }
+            }
+        }
+    }
+    & .img-profil{
+        border-radius: 50%;
+    }
 }
 
 .container{
@@ -32,20 +47,6 @@ header{
 
 p,li,a{
     color: white;
-}
-
-
-
-li{
-    list-style: none;
-    margin-left: $espace;
-    & a:hover{
-        color: $clr-list-hover;
-    }
-}
-
-.img-profil{
-    border-radius: 50%;
 }
 
 .profil{
