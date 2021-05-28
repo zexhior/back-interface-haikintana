@@ -9,6 +9,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { AccueilComponent } from './accueil/accueil.component';
+import { MembreComponent } from './membre/membre.component';
+import { ActiviteComponent } from './activite/activite.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { AccueilComponent } from './accueil/accueil.component';
     ManagerComponent,
     HeaderComponent,
     FooterComponent,
-    AccueilComponent
+    AccueilComponent,
+    MembreComponent,
+    ActiviteComponent
   ],
   imports: [
     BrowserModule,

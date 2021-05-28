@@ -1,0 +1,16 @@
+.jumbotron{
+    background: url("../../assets/background.png");
+}
+
+.section-activite{
+    & ul{
+        & li{
+            & .activite-list{
+                display: flex;
+                & p{
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}
