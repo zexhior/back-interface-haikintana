@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AccueilComponent } from './accueil/accueil.component';
 import { MembreComponent } from './membre/membre.component';
 import { ActiviteComponent } from './activite/activite.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ActiviteComponent } from './activite/activite.component';
     FooterComponent,
     AccueilComponent,
     MembreComponent,
-    ActiviteComponent
+    ActiviteComponent,
+    RechercheComponent
   ],
   imports: [
     BrowserModule,

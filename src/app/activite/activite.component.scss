@@ -1,0 +1,23 @@
+.data{
+    border-radius: 10px;
+    & table{
+        & tr{
+            & td{
+                & .statut{
+                    background-color: red;
+                    border-radius: 100px;
+                    padding: 5px;
+                }
+            }
+        }
+    }
+}
+
+.btn{
+    border-radius: 100px;
+    margin-left: 10px;
+}
+
+.marge{
+    margin-bottom: 10px;
+}
