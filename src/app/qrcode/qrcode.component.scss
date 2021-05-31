@@ -1,5 +1,5 @@
-$width: 800px;
-$height: 600px;
+$width: 500px;
+$height: 500px;
 $espace: 50px;
 $width-border:50px;
 $height-border:$width-border;
@@ -7,7 +7,6 @@ $clr-background: rgb(0, 0, 29);
 $border: 5px solid $clr-background;
 
 .camera{
-    position: relative;
     width: $width;
     height: $height + $espace;
     margin: 0px auto;
@@ -16,5 +15,13 @@ $border: 5px solid $clr-background;
         width: 50px;
         height: 50px;
         margin: 0px auto;
+    }
+}
+
+.info{
+    display: flex;
+
+    &-profil{
+        margin-left: 10px;
     }
 }

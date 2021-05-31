@@ -10,13 +10,15 @@ import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiedi
 })
 export class ProfilComponent implements OnInit {
 
+  membre: Membre = null;
+
   urlImage: string = "http://127.0.0.1:8000";
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = "http://127.0.0.1:8000";
 
-  constructor() { }
+  constructor(private membreService: MembreService) { }
 
   ngOnInit(): void {
   }

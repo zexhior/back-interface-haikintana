@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { Image } from '../image';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
+import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 
 @Component({
   selector: 'app-qrcode',
@@ -14,11 +15,15 @@ export class QrcodeComponent implements OnInit {
 
   public image: Image;
 
-  public membre: Membre;
+  public membre: Membre = null;
 
-  public text: string;
+  urlImage: string = "http://127.0.0.1:8000";
 
   public webcamImage: WebcamImage = null;
+
+  elementType = NgxQrcodeElementTypes.URL;
+  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+  value = "";
 
   constructor(private membreService: MembreService) {}
 
@@ -43,7 +48,10 @@ export class QrcodeComponent implements OnInit {
         if(data == ""){
           console.log("none");
         }else{
-          this.membre = data;         
+          this.membre = data;
+          this.urlImage = this.urlImage + this.membre.photo;
+          this.value = this.membre.id + "*" + this.membre.nom + "*" + 
+          this.membre.prenom + "*" +  this.membre.photo + "*" + this.membre.statut; 
         }
       }
     );

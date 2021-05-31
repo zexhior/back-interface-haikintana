@@ -1,6 +1,25 @@
-<ngx-qrcode
-    [elementType]="elementType"
-    [errorCorrectionLevel]="correctionLevel"
-    [value]="value"
-    cssClass="bshadow"></ngx-qrcode>
-<textarea [(ngModel)] = "value"></textarea>
+<div *ngIf="membre != null" class="container jumbotron info">
+  <div>
+    <img class="image-profil" [src]="urlImage" width="100px" height="100px">
+  </div>
+  <div class="info-profil">
+    <label>Nom: </label><p>{{membre.nom}}</p>
+    <label>Prénom: </label><p>{{membre.prenom}}</p>
+    <label>Adresse: </label><p>{{membre.adr_phys}}</p>
+    <label>Date d'addesion: </label><p>{{membre.date_add}}</p>
+    <label>Cotisation: </label><p>{{membre.cotisation}}</p>
+    <label>Nombre paiement: </label><p>{{membre.nbr_paiement}}</p>
+    <label>Linkedin: </label><p>{{membre.linkedin}}</p>
+    <label>Statut: </label><p>{{membre.statut}}</p>
+    <div class="generator-qrcode">
+      <ngx-qrcode
+      [elementType]="elementType"
+      [errorCorrectionLevel]="correctionLevel"
+      [value]="value"
+      cssClass="bshadow"></ngx-qrcode>
+    </div>
+  </div>
+</div>
+<div *ngIf="membre == null" class="jumbotron">
+    <h1>Empty</h1>
+</div>
