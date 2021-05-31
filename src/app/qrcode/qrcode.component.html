@@ -1,6 +1,5 @@
-<app-header></app-header>
 <div class="camera">
-  <webcam [height]="800" [width]="600" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+  <webcam [height]="600" [width]="800" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
   <!-- Button Takes Photo -->
   <div class="boutton">
     <button class="actionBtn btn-info btn" (click)="triggerSnapshot();">
@@ -16,4 +15,3 @@
   <h2>Take your image or get another</h2>
   <img [src]="webcamImage.imageAsDataUrl"/>
 </div>-->
-<app-footer></app-footer>

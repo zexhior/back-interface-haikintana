@@ -5,6 +5,7 @@ import { ActiviteComponent } from './activite/activite.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { MembreComponent } from './membre/membre.component';
+import { ProfilComponent } from './profil/profil.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'accueil', component: AccueilComponent},
   {path: 'activite', component: ActiviteComponent},
   {path: 'membre', component: MembreComponent},
-  {path: 'qrcode', component: QrcodeComponent}
+  {path: 'qrcode', component: QrcodeComponent},
+  {path: 'profil', component: ProfilComponent},
 ];
 
 @NgModule({

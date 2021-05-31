@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { Image } from '../image';
+import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 
 @Component({
@@ -12,6 +13,8 @@ import { MembreService } from '../membre.service';
 export class QrcodeComponent implements OnInit {
 
   public image: Image;
+
+  public membre: Membre;
 
   public text: string;
 
@@ -37,8 +40,11 @@ export class QrcodeComponent implements OnInit {
     this.membreService.analyseQRCode(this.image).subscribe(
       data =>{
         console.log("Data enregistrer");
-        this.text = data;
-        console.log(data);
+        if(data == ""){
+          console.log("none");
+        }else{
+          this.membre = data;         
+        }
       }
     );
   }
