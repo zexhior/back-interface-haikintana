@@ -54,14 +54,15 @@ h3{
     color: white;
 }
 
+body{
+    background-image: url("../../assets/background.png");
+}
+
 .main-container{
-    margin-top: 5%;
-    height: 500px;
-    
+    background-image: url("../../assets/background.png");
 }
 
 .container-image{
-    background-image: url("../../assets/background.png");
     display: inline-block;
     overflow: hidden;
     margin-bottom: 20px;
@@ -89,104 +90,49 @@ h3{
     margin: 0 auto;
 }
 
-.container{
-    & .card{
-        width: $w-card;
-        background-color: $clr-card;
-        border: 0px;
-        width: $w-card;
-        margin-bottom: 20px;
-        border-radius: $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card;
-        & .card-body{
-            position: relative;
-            padding: 0px 0px 10px 0px ;
-            & .formulaire{
-                margin-left: 15%;
-                margin-bottom: 30px;
-                width: 70%;
-                & p , input{
-                    height: $h-label;
-                    color: white;
-                    font-family: sans-serif;
-                    font-weight: bold;
-                    padding-left: 10px;
-                }
-                
-                & input{
-                    background-color: $clr-input;
-                    width: $w-input;
-                    height: $h-input;
-                    border-radius: $h-input;
-                    cursor: pointer;
-                    border: /*$sz-border-in-btn*/  0px solid $clr-input-border;
-                }
-                
-                & .button{
-                    background-color: $clr-input-border;
-                    margin-top: 20px;
-                    width: $w-input;
-                    /*height: $h-input+$sz-border-in-btn;*/
-                    border-radius: 30px;
-                    border: 0px solid $clr-input-border;
-                    color: white;
-                    font-family: Tahoma, sans-serif;
-                    font-weight: bold;
-                    font-size: 15px;
-                } 
-            }  
-        }
-    }
-}
-
-.lune{
-    position: absolute;
-    background-color: $clr-lune;
-    width: $w-lune;
-    height: $h-lune;
-    border-radius: 50%;
-    border: 1px solid $clr-lune-border;
-    box-shadow: 2px 2px 2px$clr-lune-border;
-    overflow: hidden;
-    margin-left: 50px;
-    & > div{
-        position: absolute;
-    }
-    &-shadow{
-        background-color: $clr-lune-shadow;
-        width: $w-lune;
-        height: $h-lune;
-        border-radius: 50%;
-        transform: translate(-20px, -20px);
-    }
-    & .cratere1{
-        background-color: $clr-cratere;
-        width: $w-cratere1;
-        height: $h-cratere1;
-        transform: translate(20px,20px);
-        border-bottom: 4px solid $clr-cratere-shadow;
-        border-right: 4px solid $clr-cratere-shadow;
-        border-radius: 150% 50% 150% 30%;
-        transform: translate(30px, 30px);
-    }
-    & .cratere2{
-        background-color: $clr-cratere;
-        width: $w-cratere2;
-        height: $h-cratere2;
-        transform: translate(20px,20px);
-        border-bottom: 5px solid $clr-cratere-shadow;
-        border-right: 5px solid $clr-cratere-shadow;
-        border-radius: 100% 50% 100% 30%;
-        transform: translate(100px, 30px);
-    }
-    & .cratere3{
-        background-color: $clr-cratere;
-        width: $w-cratere3;
-        height: $h-cratere3;
-        transform: translate(20px,20px);
-        border-bottom: 5px solid $clr-cratere-shadow;
-        border-right: 5px solid $clr-cratere-shadow;
-        border-radius: 50% 50% 50% 50%;
-        transform: translate(50px, 80px);
+.card{
+    width: $w-card;
+    background-color: $clr-card;
+    border: 0px;
+    width: $w-card;
+    margin: 0px auto 20px auto;
+    border-radius: $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card;
+    & .card-body{
+        padding: 0px 0px 10px 0px ;
+        & .formulaire{
+            margin-left: 15%;
+            margin-bottom: 30px;
+            width: 70%;
+            & p , input{
+                height: $h-label;
+                color: white;
+                font-family: sans-serif;
+                font-weight: bold;
+                padding-left: 10px;
+            }
+            
+            & input{
+                background-color: $clr-input;
+                width: $w-input;
+                height: $h-input;
+                border-radius: $h-input;
+                cursor: pointer;
+                border: /*$sz-border-in-btn*/  0px solid $clr-input-border;
+            }
+            
+            & .button{
+                background-color: $clr-input-border;
+                margin-top: 20px;
+                width: $w-input;
+                /*height: $h-input+$sz-border-in-btn;*/
+                border-radius: 30px;
+                border: 0px solid $clr-input-border;
+                color: white;
+                font-family: Tahoma, sans-serif;
+                font-weight: bold;
+                font-size: 15px;
+            } 
+        }  
     }
 }
 

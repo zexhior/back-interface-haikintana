@@ -1,11 +1,14 @@
 .data{
+    border-radius: 10px;
     & table{
+        height: 450px;
         & tr{
             & td{
                 & .statut{
                     background-color: red;
                     border-radius: 100px;
                     padding: 5px;
+                    width:140px;
                 }
             }
         }

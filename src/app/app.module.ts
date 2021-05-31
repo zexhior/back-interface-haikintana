@@ -12,6 +12,10 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { MembreComponent } from './membre/membre.component';
 import { ActiviteComponent } from './activite/activite.component';
 import { RechercheComponent } from './recherche/recherche.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -23,12 +27,16 @@ import { RechercheComponent } from './recherche/recherche.component';
     AccueilComponent,
     MembreComponent,
     ActiviteComponent,
-    RechercheComponent
+    RechercheComponent,
+    QrcodeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
+    NgxQRCodeModule,
+    WebcamModule
   ],
   providers: [],
   bootstrap: [AppComponent]

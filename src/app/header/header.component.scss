@@ -1,64 +1,28 @@
 $espace: 20px;
 $clr-list: rgba(0,0,155,0.8);
 $clr-list-hover: rgba(255,255,0,0.8);
+$clr-background: rgb(0, 0, 29);
 
 *{
     font-family: 'sans-serif';
 }
 
 header{
-    margin: 10px;
-    & ,ul,.profil{
+    background-color:  $clr-background;
+    margin-bottom: 10px;
+    & nav{
         display: flex;
         justify-content: space-between;
-    }
-    & nav{
-        & ul{
-            display: flex;
-            & li{
-                list-style: none;
-                margin-left: $espace;
-                & a:hover{
-                    color: $clr-list-hover;
+        & .dropdown{
+            & .dropdown-menu{
+                & .profil{
+                    margin: 0px auto;
+                    & .img-profil{
+                        border-radius: 50%;
+                    }
                 }
             }
         }
     }
-    & .img-profil{
-        border-radius: 50%;
-    }
 }
 
-.container{
-    background-color: $clr-list;
-    padding: 20px;
-    margin: 20px 20px 0px 20px;
-    border-radius: 30px;
-    height: 600px;
-    & table{
-        width: 100%;
-        & tr{
-            & td{
-                border: 1px solidwhite;
-            }
-        }
-    }
-}
-
-p,li,a{
-    color: white;
-}
-
-.profil{
-    padding: 5px 5px 5px 0px;
-    background-color: $clr-list;
-    border-radius: 50px;
-}
-
-.statut{
-    background-color: red;
-    padding: 10px;
-    border-radius: 50px;
-    text-align: center;
-    width: 100px;
-}

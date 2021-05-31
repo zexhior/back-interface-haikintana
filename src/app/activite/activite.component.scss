@@ -1,13 +1,12 @@
 .data{
     border-radius: 10px;
+    height: 450px;
     & table{
+        overflow: scroll;
+        height: 100%;
         & tr{
             & td{
-                & .statut{
-                    background-color: red;
-                    border-radius: 100px;
-                    padding: 5px;
-                }
+                
             }
         }
     }
