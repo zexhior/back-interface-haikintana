@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccueilComponent } from './accueil/accueil.component';
 import { ActiviteComponent } from './activite/activite.component';
+import { DetailActiviteComponent } from './detail-activite/detail-activite.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { MembreComponent } from './membre/membre.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'membre', component: MembreComponent},
   {path: 'qrcode', component: QrcodeComponent},
   {path: 'profil/:id', component: ProfilComponent},
+  {path: 'detail-activite/:id', component: DetailActiviteComponent}
 ];
 
 @NgModule({

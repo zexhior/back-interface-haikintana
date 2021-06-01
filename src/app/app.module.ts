@@ -18,6 +18,7 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
 import { ProfilComponent } from './profil/profil.component';
 import { PhotoComponent } from './photo/photo.component';
+import { DetailActiviteComponent } from './detail-activite/detail-activite.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PhotoComponent } from './photo/photo.component';
     RechercheComponent,
     QrcodeComponent,
     ProfilComponent,
-    PhotoComponent
+    PhotoComponent,
+    DetailActiviteComponent
   ],
   imports: [
     BrowserModule,
