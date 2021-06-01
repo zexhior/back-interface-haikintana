@@ -1,23 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Directive } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
-import { Observable, Subject } from 'rxjs';
+import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { Image } from '../image';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-qrcode',
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']
 })
+
 export class QrcodeComponent implements OnInit {
+  mySub: Subscription;
+
+  private router: Router;
+
+  public nombre: number = 0;
 
   public image: Image;
-
-  public membre: Membre = null;
-
-  urlImage: string = "http://127.0.0.1:8000";
 
   public webcamImage: WebcamImage = null;
 
@@ -25,16 +28,22 @@ export class QrcodeComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = "";
 
-  constructor(private membreService: MembreService) {}
+  constructor(private membreService: MembreService) {
+  }
 
   ngOnInit(): void {
-    
+    this.mySub = interval(3000).subscribe(()=>{
+      this.trigger.next();
+    });
   }
 
   trigger: Subject<void> = new Subject<void>();
 
   triggerSnapshot(): void{
-    this.trigger.next();
+    this.mySub = interval(3000).subscribe(()=>{
+      this.nombre++;
+      this.trigger.next();
+    });
   }
   
   handleImage(webcamImage): void{
@@ -48,10 +57,7 @@ export class QrcodeComponent implements OnInit {
         if(data == ""){
           console.log("none");
         }else{
-          this.membre = data;
-          this.urlImage = this.urlImage + this.membre.photo;
-          this.value = this.membre.id + "*" + this.membre.nom + "*" + 
-          this.membre.prenom + "*" +  this.membre.photo + "*" + this.membre.statut; 
+          
         }
       }
     );
