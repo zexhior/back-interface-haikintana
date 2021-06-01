@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class QrcodeComponent implements OnInit {
   mySub: Subscription;
 
-  private router: Router;
+  private membre: Membre;
 
   public nombre: number = 0;
 
@@ -28,7 +28,7 @@ export class QrcodeComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = "";
 
-  constructor(private membreService: MembreService) {
+  constructor(private membreService: MembreService, private route: Router) {
   }
 
   ngOnInit(): void {
@@ -57,7 +57,9 @@ export class QrcodeComponent implements OnInit {
         if(data == ""){
           console.log("none");
         }else{
-          
+          this.membre = data;
+          this.route.navigate(['profil/'+this.membre.id]);
+          console.log(data);
         }
       }
     );

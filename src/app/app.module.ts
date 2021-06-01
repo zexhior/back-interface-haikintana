@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
 import { ProfilComponent } from './profil/profil.component';
+import { PhotoComponent } from './photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProfilComponent } from './profil/profil.component';
     ActiviteComponent,
     RechercheComponent,
     QrcodeComponent,
-    ProfilComponent
+    ProfilComponent,
+    PhotoComponent
   ],
   imports: [
     BrowserModule,

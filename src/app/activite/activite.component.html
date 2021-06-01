@@ -7,8 +7,8 @@
                 <td class="d-table-cell d-table"><p>Theme</p></td>
                 <td class="d-table-cell d-table"><p>Date</p></td>
             </tr>
-            <tr class="d-table-row">
-                <td class="d-table-cell d-table"><img src="../../assets/moon.svg" width="50px" height="50px"></td>
+            <tr *ngFor="let activite of listeActivite | async" class="d-table-row">
+                <td class="d-table-cell d-table"><app-photo [ids]="activite.photos" [nbr]="nbr" ></app-photo></td>
                 <td class="d-table-cell d-table"><p>Theme de l'activite numero 1 ainsi que les details de l'activité</p></td>
                 <td class="d-table-cell d-table"><p>2021-06-30</p></td>
                 <td class="d-table-cell d-table"><a class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
