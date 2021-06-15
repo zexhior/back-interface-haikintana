@@ -9,4 +9,9 @@ export class Liste{
     activite = "activites";
     description = "descriptions";
     photo = "photos";
+    contactorganisation = "contactorganisations";
+    photoprofil = "photoprofils";
+    regle = "regles";
+    cotisation = "cotisations";
+    paiement = "paiements";
 }

@@ -58,8 +58,7 @@ export class QrcodeComponent implements OnInit {
           console.log("none");
         }else{
           this.membre = data;
-          this.route.navigate(['profil/'+this.membre.id]);
-          console.log(data);
+          this.route.navigate(['/manager/profil/'+this.membre.id]);
         }
       }
     );

@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccueilComponent } from './accueil/accueil.component';
 import { MembreComponent } from './membre/membre.component';
 import { ActiviteComponent } from './activite/activite.component';
@@ -34,7 +34,7 @@ import { DetailActiviteComponent } from './detail-activite/detail-activite.compo
     QrcodeComponent,
     ProfilComponent,
     PhotoComponent,
-    DetailActiviteComponent
+    DetailActiviteComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +42,8 @@ import { DetailActiviteComponent } from './detail-activite/detail-activite.compo
     FormsModule,
     HttpClientModule,
     NgxQRCodeModule,
-    WebcamModule
+    WebcamModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

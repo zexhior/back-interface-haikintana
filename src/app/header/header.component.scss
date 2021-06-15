@@ -18,7 +18,13 @@ header{
                 & .profil{
                     margin: 0px auto;
                     & .img-profil{
+                        height: 70px;
+                        margin: 0px auto;
                         border-radius: 50%;
+                    }
+                    & .nom{
+                        width: 100px;
+                        margin: 0px auto;
                     }
                 }
             }

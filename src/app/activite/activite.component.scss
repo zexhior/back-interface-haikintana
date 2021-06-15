@@ -1,13 +1,23 @@
+$clr-link: rgba(0,0,155,0.5);
+
 .data{
     border-radius: 10px;
     height: 450px;
+    overflow: scroll;
     & table{
-        overflow: scroll;
-        height: 100%;
-        & tr{
-            & td{
-                
+        width: 100%;
+        & .membre{
+            display: inline;
+            align-content: center;
+            & .statut{
+                background-color: red;
+                border-radius: 100px;
+                padding: 5px;
+                width:140px;
             }
+        }
+        & .membre:hover{
+            background: $clr-link;
         }
     }
 }

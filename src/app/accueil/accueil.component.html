@@ -3,16 +3,10 @@
     <div class="container section-activite">
         <h1>Nouveauté sur les activités</h1>
         <ul class="list-group-item">
-            <li class="list-group-item-info list-group-item">
-                <div class="activite-list">
-                    <img src="../../assets/1.JPG" alt="img-activity" title="image activite" width="50px" height="50px">
-                    <p>theme de l'activite 1</p>
-                </div>
-            </li>
-            <li class="list-group-item-info list-group-item">
-                <div class="activite-list">
-                    <img src="../../assets/1.JPG" alt="img-activity" title="image activite" width="50px" height="50px">
-                    <p>theme de l'activite 1</p>
+            <li *ngFor="let activite of listeActivite | async" class="list-group-item-info list-group-item">
+                <div class="activite-list" [routerLink]="['/manager/detail-activite',activite.id]">
+                    <app-photo [ids]="activite.photos" [nbr]=1></app-photo>
+                    <p>{{activite.theme}}</p>
                 </div>
             </li>
         </ul>

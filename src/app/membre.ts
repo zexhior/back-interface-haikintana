@@ -4,12 +4,10 @@ export class Membre{
     prenom: string;
     adr_phys: string;
     date_add: string;
-    cotisation: number;
-    nbr_paiement: number;
-    photo: ImageData;
     linkedin: string;
     statut: string;
     nummembre: number[];
     fbmembre: number[];
     mailmembre: number[];
+    photoprofil: number;
 }

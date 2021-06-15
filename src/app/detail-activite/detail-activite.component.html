@@ -1,1 +1,11 @@
-
+<div class="container jumbotron">
+    <app-photo [ids]="activite.photos"></app-photo>
+    <label>Theme :</label>
+    <input class="form-control input-group" type="text" [placeholder]="activite.theme">
+    <label>Date :</label>
+    <input class="form-control input-group" type="text" [placeholder]="activite.date">
+    <label>Description : </label>
+    <div *ngFor="let paragraphe of paragraphes">
+        <input class="form-control input-group-append input-group paragraphe" type="text" [value]="paragraphe">
+    </div>
+</div>

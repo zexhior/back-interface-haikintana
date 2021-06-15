@@ -1,11 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Fb } from './fb';
 import { Liste } from './liste_element';
-import { Mail } from './mail';
-import { Membre } from './membre';
-import { Numero } from './numero';
 
 @Injectable({
   providedIn: 'root'
@@ -14,22 +10,42 @@ import { Numero } from './numero';
 export class MembreService {
   public liste: Liste = new Liste;
 
-  private element: any = null;
+  public element: any = null;
 
   private baseUrl = "http://127.0.0.1:8000/api";
 
-  constructor(private http: HttpClient) { }
+  private id: number;
+
+  constructor(private http: HttpClient) { 
+    
+  }
+
+  setId(id: number){
+    this.id = id;
+  }
+
+  getProfil(): any{
+    return this.http.get(`${this.baseUrl}/membres/${this.id}`);
+  }
 
   getElementList(path: string): Observable<any>{
     return this.http.get(`${this.baseUrl}/${path}/`);
   }
 
-  getElementById(path: string, id: number): any{
-    return this.http.get(`${this.baseUrl}/${path}/${id}`);
+  async getElementById(path: string, id: number):Promise<any>{
+    return await this.http.get(`${this.baseUrl}/${path}/${id}`).toPromise().then(
+      data => {
+        return data;
+      }
+    );
   }
 
-  getBaseUrlImage(): string{
-    return "http://127.0.0.1:8000";
+  async createElement(path: string,element: Object) : Promise<any>{
+    return this.http.post(`${this.baseUrl}/${path}/`,element).toPromise().then(
+      (data) => {
+        return data;
+      }
+    );
   }
 
   analyseQRCode(urlImage: Object): Observable<any>{

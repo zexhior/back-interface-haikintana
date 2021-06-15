@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Activite } from '../activite';
+import { MembreService } from '../membre.service';
 
 @Component({
   selector: 'app-accueil',
@@ -6,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./accueil.component.scss']
 })
 export class AccueilComponent implements OnInit {
+  public listeActivite: Observable<Activite>;
+  public urlImageBase: string;
 
-  constructor() { }
+  constructor(private membreService: MembreService) { }
 
   ngOnInit(): void {
+    this.urlImageBase = this.membreService.liste.base;
+    this.listeActivite =this.membreService.getElementList(this.membreService.liste.activite);
   }
 
 }
