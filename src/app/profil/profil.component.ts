@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef,Input} from '@angular/core';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
@@ -7,6 +7,7 @@ import { Liste } from '../liste_element';
 import { HttpClient } from '@angular/common/http';
 import { PhotoProfil } from '../photoprofil';
 import { Observable } from 'rxjs';
+import { Numero } from '../numero';
 
 @Component({
   selector: 'app-profil',
@@ -19,6 +20,8 @@ export class ProfilComponent implements OnInit {
   avantmembre: Observable<Membre>;
   membre: Membre = null;
   submitted = false;
+  public count_tel: number = 1;
+  public liste_telephone: Array<Numero> = new Array<Numero>();
   public nom: string;
   public prenom: string;
   public adr_phys: string;
@@ -35,9 +38,9 @@ export class ProfilComponent implements OnInit {
   value = "";
 
   constructor(private http: HttpClient , private membreService: MembreService,private route: ActivatedRoute,
-    private routeLink: Router) { 
+    private routeLink: Router, private changeDetection: ChangeDetectorRef) { 
 
-    }
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
@@ -45,6 +48,19 @@ export class ProfilComponent implements OnInit {
     if(this.id != 0){
       this.getMembre();
     }
+    else{
+      for(var i=0; i < this.count_tel; i++){
+        var num = new Numero();
+        this.liste_telephone.push(num);
+      }
+    }
+  }
+
+  addNum(): void{
+    this.count_tel++;
+    var num = new Numero();
+    this.liste_telephone.push(num);
+    this.changeDetection.detectChanges();
   }
 
   async getMembre(): Promise<void>{
@@ -97,7 +113,7 @@ export class ProfilComponent implements OnInit {
     this.membre.linkedin = "test";
     this.membre.statut = this.statut;
     this.callServiceToSaveMembre();
-    this.routeLink.navigate(['/membre']);
+    this.routeLink.navigate(['/manager/membre']);
   }
 
   onSubmit(){

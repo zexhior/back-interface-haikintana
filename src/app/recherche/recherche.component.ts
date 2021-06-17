@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-recherche',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recherche.component.scss']
 })
 export class RechercheComponent implements OnInit {
+  @Input() position: number;
 
   constructor() { }
 

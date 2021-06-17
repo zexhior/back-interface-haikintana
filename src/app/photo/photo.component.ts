@@ -13,7 +13,8 @@ export class PhotoComponent implements OnInit {
   
   @Input() ids: number[];
   @Input() nbr: number = 0;
-  public photos = new Array<string>();
+  public photos = new Array<File>();
+  public urlPhotos = new Array<any>();
 
   constructor(private membreService: MembreService, private route: ActivatedRoute) { 
     
@@ -30,5 +31,15 @@ export class PhotoComponent implements OnInit {
         break;
       }
     }*/
+  }
+
+  addImage(event){
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (_event)=>{
+      this.urlPhotos.push(reader.result);
+    }
+    this.photos.push(file);
   }
 }

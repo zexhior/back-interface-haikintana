@@ -11,6 +11,7 @@ import { Photo } from '../photo';
 })
 export class ActiviteComponent implements OnInit {
   public listeActivite: Observable<Activite[]>;
+  public position = 2;
   public photo: Photo[];
   public urlImage: string = "";
   public nbr: number = 1;

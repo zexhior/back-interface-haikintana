@@ -1,11 +1,79 @@
-<div class="container jumbotron">
-    <app-photo [ids]="activite.photos"></app-photo>
+<h1>Detail activité</h1>
+<div *ngIf="addCategorie == true" class="jumbotron">
+    <label>Type:</label>
+    <div *ngIf="categorie == null">
+        <input class="form-control input-group" type="text" [(ngModel)]="type">
+        <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Creer</button>
+    </div>
+    <div *ngIf="categorie != null">
+        <input class="form-control input-group" type="text" [placeholder]="this.categorie.type">
+        <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Modifier</button>
+    </div>
+</div>
+<div *ngIf="this.activite != null" class="container jumbotron">
     <label>Theme :</label>
     <input class="form-control input-group" type="text" [placeholder]="activite.theme">
     <label>Date :</label>
     <input class="form-control input-group" type="text" [placeholder]="activite.date">
-    <label>Description : </label>
+    <!--<label>Description : </label>
     <div *ngFor="let paragraphe of paragraphes">
         <input class="form-control input-group-append input-group paragraphe" type="text" [value]="paragraphe">
+    </div>-->
+    <label>Categorie :</label>{{selected}}
+    <div class="categorie">
+        <select [(ngModel)]="selected">
+            <option *ngFor="let categorie of listeCategorie | async" >{{categorie.type}}</option>
+        </select>
+        <button (click)="onChangeCategorie()">+</button>
+        <button>-</button>
     </div>
+    <label>Description: </label>
+    <button (click)="addParagraphe()">+</button>
+    <button>-</button>
+    <div *ngFor="let paragraphe of paragraphes">
+        <input class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">
+    </div>
+    <label>Photo: </label>
+    <div>
+        <div class="row">
+            <div *ngFor="let photo of urlPhotos" class="col-6 col-md-4 col-lg-3">
+                <img [src]="photo" width="100px" height="100px" [title]="photo">
+            </div>
+        </div>
+        <div class="input-file-container">
+            <input class="input-file" id="my-file" type="file" (change)="addImage($event)">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
+</div>
+<div *ngIf="this.activite == null" class="container jumbotron">
+    <label>Theme :</label>{{theme}}
+    <input class="form-control input-group" type="text" [(ngModel)]="theme">
+    <label>Date :</label>{{date}}
+    <input class="form-control input-group" type="text" [(ngModel)]="date">
+    <label>Categorie :</label>{{selected}}
+    <div class="categorie">
+        <select [(ngModel)]="selected">
+            <option *ngFor="let categorie of listeCategorie | async" >{{categorie.type}}</option>
+        </select>
+        <button (click)="onChangeCategorie()">+</button>
+        <button>-</button>
+    </div>
+    <label>Description : </label>
+    <button (click)="addParagraphe()">+</button>
+    <button>-</button>
+    <div *ngFor="let paragraphe of paragraphes">{{paragraphe.paragraphe}}
+        <input class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">
+    </div>
+    <div>
+        <div class="row">
+            <div *ngFor="let photo of urlPhotos" class="col-6 col-md-4 col-lg-3">
+                <img [src]="photo" width="100px" height="100px" [title]="photo">
+            </div>
+        </div>
+        <div class="input-file-container">
+            <input class="input-file" id="my-file" type="file" (change)="addImage($event)">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
 </div>

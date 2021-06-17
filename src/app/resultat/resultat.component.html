@@ -1,5 +1,6 @@
-<app-recherche  [position]="position" ></app-recherche>
-<div class="container">
+<div>
+    <app-recherche></app-recherche>
+    <div class="container">
     <div class="container data table-info">
         <table class="table-info">
             <tr class="d-table-row">
@@ -7,7 +8,7 @@
                 <td class="d-table-cell d-table"><p>Nom</p></td>
                 <td class="d-table-cell d-table"><p>Prenom</p></td>
             </tr>
-            <tr class="d-table-row membre" *ngFor="let membre of listeMembre | async" [routerLink]="['/manager/profil',membre.id]">
+            <!--<tr class="d-table-row membre" *ngFor="let membre of listeMembre | async" [routerLink]="['/manager/profil',membre.id]">
                 <td class="d-table-cell d-table"><p class="statut">{{ membre.statut}}</p></td>
                 <td class="d-table-cell d-table"><p>{{ membre.nom}}</p></td>
                 <td class="d-table-cell d-table"><p>{{ membre.prenom}}</p></td>
@@ -19,11 +20,10 @@
                         </svg>
                     </button>
                 </td>
-            </tr>
+            </tr>-->
             <a >
                 
             </a>
         </table>
     </div>
 </div>
-

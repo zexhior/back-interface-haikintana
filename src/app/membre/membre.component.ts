@@ -10,6 +10,7 @@ import { MembreService } from '../membre.service';
 })
 export class MembreComponent implements OnInit {
   public listeMembre: Observable<Membre[]>;
+  public position = 1;
 
   constructor(private membreService: MembreService) { }
 

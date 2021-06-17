@@ -5,7 +5,7 @@
         <ul class="list-group-item">
             <li *ngFor="let activite of listeActivite | async" class="list-group-item-info list-group-item">
                 <div class="activite-list" [routerLink]="['/manager/detail-activite',activite.id]">
-                    <app-photo [ids]="activite.photos" [nbr]=1></app-photo>
+                    <p>{{activite.date}}</p>
                     <p>{{activite.theme}}</p>
                 </div>
             </li>

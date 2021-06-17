@@ -19,6 +19,8 @@ import { WebcamModule } from 'ngx-webcam';
 import { ProfilComponent } from './profil/profil.component';
 import { PhotoComponent } from './photo/photo.component';
 import { DetailActiviteComponent } from './detail-activite/detail-activite.component';
+import { ResultatComponent } from './resultat/resultat.component';
+import { ActiviteInfoComponent } from './activite-info/activite-info.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { DetailActiviteComponent } from './detail-activite/detail-activite.compo
     ProfilComponent,
     PhotoComponent,
     DetailActiviteComponent,
+    ResultatComponent,
+    ActiviteInfoComponent,
   ],
   imports: [
     BrowserModule,

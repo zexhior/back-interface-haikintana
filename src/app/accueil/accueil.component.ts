@@ -15,8 +15,7 @@ export class AccueilComponent implements OnInit {
   constructor(private membreService: MembreService) { }
 
   ngOnInit(): void {
-    this.urlImageBase = this.membreService.liste.base;
-    this.listeActivite =this.membreService.getElementList(this.membreService.liste.activite);
+    this.listeActivite = this.membreService.getElementList(this.membreService.liste.activite);
   }
 
 }
