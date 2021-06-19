@@ -9,6 +9,7 @@ export class Liste{
     activite = "activites";
     description = "descriptions";
     photo = "photos";
+    presence = "presences";
     contactorganisation = "contactorganisations";
     photoprofil = "photoprofils";
     regle = "regles";

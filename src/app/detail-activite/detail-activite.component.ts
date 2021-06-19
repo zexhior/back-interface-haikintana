@@ -14,7 +14,7 @@ import { Photo } from '../photo';
   styleUrls: ['./detail-activite.component.scss']
 })
 export class DetailActiviteComponent implements OnInit {
-  public activite: Activite = null;
+  public activite: Activite = new Activite();
   public paragraphes = new Array<Description>();
   public listeCategorie: Observable<Array<Categorie>>;
   public theme: string;
@@ -22,7 +22,7 @@ export class DetailActiviteComponent implements OnInit {
   public addCategorie: boolean = false;
   public type: string;
   private idCategorie: number;
-  public categorie: Categorie = null;
+  public categorie: Categorie = new Categorie;
   private id: number;
   public selected: any;
   public photos = new Array<File>();
@@ -43,14 +43,18 @@ export class DetailActiviteComponent implements OnInit {
     }
     else{
       this.getActivite();
-      await this.listeCategorie.toPromise().then((data)=>{
-        for(let categorie of data){
-          if(categorie.id == this.activite.categorie){
-            this.selected = categorie.type;
-          }
-        }
-      });
     }
+    await this.listeCategorie.toPromise().then((data)=>{
+      console.log("test "+this.id);
+      console.log(data);
+      for(let categorie of data){
+        console.log(categorie);
+        if(categorie.id == this.activite.categorie){
+          this.selected = categorie.type;
+          this.categorie = categorie;
+        }
+      }
+    });
     /*this.membreService.getElementById(this.membreService.liste.activite,this.id).subscribe(
       (data) => {
         this.activite = data;
@@ -75,7 +79,6 @@ export class DetailActiviteComponent implements OnInit {
   }
 
   async save(){
-    console.log("tada");
     this.activite = new Activite();
     this.activite.theme = this.theme;
     this.activite.date = this.date;
@@ -127,10 +130,14 @@ export class DetailActiviteComponent implements OnInit {
       console.log(this.categorie);
       this.routeNavigate.navigate(['/manager/activite'])
     }
+    else{
+      this.categorie.type = this.type;
+      this.categorie = await this.membreService.updateElementById(this.membreService.liste.categorie, this.categorie.id, this.categorie);
+      console.log("update"+this.categorie.id);
+    }
   }
 
   async getPhoto(){
-    console.log("tada");
     for(let id of this.activite.photos){
       var file = await this.membreService.getElementById(this.membreService.liste.photo,id);
       this.urlPhotos.push(this.membreService.urlImage+file.url_image); 

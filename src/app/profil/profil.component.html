@@ -1,73 +1,50 @@
 <div class="container jumbotron info">
-  <div *ngIf="membre != null">
+  <div>
     <div *ngIf="photoprofil != null" class="image-profil">
-      <img [title]="urlIMage" [src]="urlImage" width="100px" height="100px">
+      <img [title]="urlImage" [src]="urlImage" width="100px" height="100px">
     </div>
     <div class="add-image-profil">
-      <!--<button class="btn btn-info">
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-      </button>{{membre.photo}}-->
       <input class="btn btn-info" type="file" (change)="getImage($event)">
     </div> 
-    <label>Nom : {{nom}}</label>
-    <input class="form-control" type="text" [placeholder]="membre.nom">
-    <label>Prénom: </label>{{prenom}}
-    <input class="form-control" type="text" [placeholder]="membre.prenom">
-    <label>Adresse: </label>{{adr_phys}}
-    <input class="form-control" type="text" [placeholder]="membre.adr_phys">
-    <label>Date d'addesion: </label>{{date_add}}
-    <input class="form-control" type="text" [placeholder]="membre.date_add">
-    <label>Statut: </label>{{statut}}
-    <input class="form-control" type="text" [placeholder]="membre.statut">
-    <label>Telephone: </label>{{statut}}
-    <div>
-      <input class="form-control" type="text" [placeholder]="membre.statut">
-    </div>
-    <label>Qrcode: </label>
-    <div class="generator-qrcode">
-      <ngx-qrcode
-      [elementType]="elementType"
-      [errorCorrectionLevel]="correctionLevel"
-      [value]="value"
-      cssClass="bshadow"></ngx-qrcode>
-    </div>
-    <button type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
-  </div>
-  <div *ngIf="membre == null">
-    <div class="add-image-profil">
-      <!--<button class="btn btn-info">
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-      </button>{{membre.photo}}-->
-      <input class="btn btn-info" type="file" (change)="getImage($event)">
-    </div> 
-    <label>Nom : {{nom}}</label>
-    <input class="form-control" type="text" [(ngModel)]="nom">
-    <label>Prénom: </label>{{prenom}}
-    <input class="form-control" type="text" [(ngModel)]="prenom">
-    <label>Adresse: </label>{{adr_phys}}
-    <input class="form-control" type="text" [(ngModel)]="adr_phys">
-    <label>Date d'addesion: </label>{{date_add}}
-    <input class="form-control" type="text" [(ngModel)]="date_add">
-    <label>Statut: </label>{{statut}}
-    <input class="form-control" type="text" [(ngModel)]="statut">
-    <!--<label>Telephone:</label>
+    <label>Nom : {{membre.nom}}</label>
+    <input class="form-control" type="text" [(ngModel)]="this.membre.nom">
+    <label>Prénom: </label>{{membre.prenom}}
+    <input class="form-control" type="text" [(ngModel)]="this.membre.prenom">
+    <label>Adresse: </label>{{membre.adr_phys}}
+    <input class="form-control" type="text" [(ngModel)]="this.membre.adr_phys">
+    <label>Date d'addesion: </label>{{membre.date_add}}
+    <input class="form-control" type="text" [(ngModel)]="this.membre.date_add">
+    <label>Statut: </label>{{membre.statut}}
+    <input class="form-control" type="text" [(ngModel)]="this.membre.statut">
+    <label>Linkedin: </label>{{membre.linkedin}}
+    <input class="form-control" type="text" [(ngModel)]="this.membre.linkedin">
+    <label>Telephone:</label>
     <button (click)="addNum()">+</button>
-    <button>-</button>{{count_tel}}
-    <div *ngFor="let numero of liste_telephone; tracBy: count_tel">
-      <input class="form-control" type="text" [placeholder]="membre.statut">
-    </div>-->
-    <label>Qrcode: </label>
-    <div class="generator-qrcode">
+    <button>-</button>
+    <div *ngFor="let numero of liste_numero">{{numero.numero}}
+      <input class="form-control" type="text" [(ngModel)]="numero.numero">
+    </div>
+    <label>Facebook:</label>
+    <button (click)="addFb()">+</button>
+    <button>-</button>
+    <div *ngFor="let fb of liste_fb">{{fb.nom_compte}}
+      <input class="form-control" type="text" [(ngModel)]="fb.nom_compte">
+    </div>
+    <label>E-mail:</label>
+    <button (click)="addMail()">+</button>
+    <button>-</button>
+    <div *ngFor="let mail of liste_mail">{{mail.adr_mail}}
+      <input class="form-control" type="text" [(ngModel)]="mail.adr_mail">
+    </div>
+    <label *ngIf="id != 0">Qrcode: </label>
+    <div *ngIf="id != 0" class="generator-qrcode">
       <ngx-qrcode
       [elementType]="elementType"
       [errorCorrectionLevel]="correctionLevel"
       [value]="value"
       cssClass="bshadow"></ngx-qrcode>
     </div>
-    <button type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
+    <button *ngIf="id == 0" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
+    <button *ngIf="id != 0" type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
   </div>
 </div>

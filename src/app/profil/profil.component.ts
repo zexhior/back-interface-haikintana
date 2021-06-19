@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { PhotoProfil } from '../photoprofil';
 import { Observable } from 'rxjs';
 import { Numero } from '../numero';
+import { Fb } from '../fb';
+import { Mail } from '../mail';
 
 @Component({
   selector: 'app-profil',
@@ -18,10 +20,8 @@ export class ProfilComponent implements OnInit {
   liste: Liste = new Liste;
   id: number = 0;
   avantmembre: Observable<Membre>;
-  membre: Membre = null;
+  membre: Membre = new Membre();
   submitted = false;
-  public count_tel: number = 1;
-  public liste_telephone: Array<Numero> = new Array<Numero>();
   public nom: string;
   public prenom: string;
   public adr_phys: string;
@@ -30,6 +30,9 @@ export class ProfilComponent implements OnInit {
   public statut: string;
   private formData = new FormData();
   public photoprofil: PhotoProfil = null;
+  public liste_numero = new Array<Numero>();
+  public liste_fb = new Array<Fb>();
+  public liste_mail = new Array<Mail>(); 
 
   urlImage: string = "http://127.0.0.1:8000";
 
@@ -39,7 +42,6 @@ export class ProfilComponent implements OnInit {
 
   constructor(private http: HttpClient , private membreService: MembreService,private route: ActivatedRoute,
     private routeLink: Router, private changeDetection: ChangeDetectorRef) { 
-
   }
 
   ngOnInit(): void {
@@ -49,18 +51,10 @@ export class ProfilComponent implements OnInit {
       this.getMembre();
     }
     else{
-      for(var i=0; i < this.count_tel; i++){
-        var num = new Numero();
-        this.liste_telephone.push(num);
-      }
+      this.addNum();
+      this.addMail();
+      this.addFb();
     }
-  }
-
-  addNum(): void{
-    this.count_tel++;
-    var num = new Numero();
-    this.liste_telephone.push(num);
-    this.changeDetection.detectChanges();
   }
 
   async getMembre(): Promise<void>{
@@ -71,13 +65,17 @@ export class ProfilComponent implements OnInit {
     this.urlImage = this.urlImage + this.photoprofil.photo;
     this.value = this.membre.id+"*"+this.membre.nom+
     "*"+this.membre.prenom+"*"+this.photoprofil.photo+"*"+this.membre.statut;
-  }
-
-  getImage(event){
-    this.file = event.target.files[0];
-    console.log(this.file.name);
-    if(this.membre !=null){
-      this.callServiceToSavePhoto()
+    for(let numero of this.membre.nummembre){
+      var num = await this.membreService.getElementById(this.membreService.liste.numero, numero);
+      this.liste_numero.push(num);
+    }
+    for(let fb of this.membre.fbmembre){
+      var compte = await this.membreService.getElementById(this.membreService.liste.fb, fb);
+      this.liste_fb.push(compte);
+    }
+    for(let mail of this.membre.mailmembre){
+      var adr = await this.membreService.getElementById(this.membreService.liste.mail,mail);
+      this.liste_mail.push(adr);
     }
   }
 
@@ -86,32 +84,22 @@ export class ProfilComponent implements OnInit {
     this.membre = new Membre();
   }
 
-  callServiceToSavePhoto(): void{
-    if(this.file != null){
-      this.formData.append('membre',""+this.membre.id);
-      this.formData.append('photo', this.file, this.file.name);
-      this.http.post("http://127.0.0.1:8000/api/membrecreation/",this.formData).subscribe(
-        data =>{ 
-          console.log("test");
-          console.log(data);
-        }
-      );
-    }
-  }
-
   async callServiceToSaveMembre(): Promise<void>{
-    this.membre = await this.membreService.createElement(this.membreService.liste.membre,this.membre);
+    if(this.id == 0){
+      this.membre = await this.membreService.createElement(this.membreService.liste.membre,this.membre);
+      this.saveNumeros();
+      this.saveFbs();
+      this.saveMails();
+    }
+    else{
+      //this.membre = await this.membreService.updateElementById(this.membreService.liste.membre,this.id,this.membre);
+      console.log(await this.membreService.updateElementById(this.membreService.liste.membre,this.id,this.membre));
+    }
     await this.callServiceToSavePhoto();
   }
 
   async save(){
-    this.membre = new Membre();
-    this.membre.nom = this.nom;
-    this.membre.prenom = this.prenom;
-    this.membre.adr_phys = this.adr_phys;
-    this.membre.date_add = this.date_add;
     this.membre.linkedin = "test";
-    this.membre.statut = this.statut;
     this.callServiceToSaveMembre();
     this.routeLink.navigate(['/manager/membre']);
   }
@@ -119,4 +107,82 @@ export class ProfilComponent implements OnInit {
   onSubmit(){
     this.save();
   }
+
+  async callServiceToSavePhoto(){
+    if(this.file != null){
+      this.formData.append('photo', this.file, this.file.name);
+      this.formData.append('membre',""+this.membre.id);
+      if(this.id == 0){
+        console.log("create");
+        this.formData.append('id',""+this.id);
+        await this.http.post("http://127.0.0.1:8000/api/membrecreation/",this.formData).toPromise().then(
+          data =>{ 
+            console.log("test");
+            console.log(data);
+          }
+        );
+      }
+      else{
+        console.log("udpate");
+        this.formData.append('id',""+this.photoprofil.id);
+        await this.http.put("http://127.0.0.1:8000/api/membrecreation/",this.formData).toPromise().then(
+          data =>{ 
+            console.log("test");
+            console.log(data);
+          }
+        );
+      }
+    }
+  }
+
+  getImage(event){
+    this.file = event.target.files[0];
+    if(this.photoprofil == null){
+      this.photoprofil = new PhotoProfil();
+    }
+    this.photoprofil.photo = this.file;
+    console.log(this.photoprofil.photo);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.photoprofil.photo);
+    reader.onload = (_event)=>{
+      this.urlImage = reader.result.toString();
+    }
+  }
+
+  addNum(): void{
+    var num = new Numero();
+    this.liste_numero.push(num);
+  }
+
+  async saveNumeros(){
+    for(let numero of this.liste_numero){
+      numero.membre = this.membre.id;
+      await this.membreService.createElement(this.membreService.liste.numero,numero);
+    }
+  }
+
+  addFb(): void{
+    var fb = new Fb();
+    this.liste_fb.push(fb);
+  }
+
+  async saveFbs(){
+    for(let fb of this.liste_fb){
+      fb.membre = this.membre.id;
+      await this.membreService.createElement(this.membreService.liste.fb,fb);
+    }
+  }
+
+  addMail(): void{
+    var mail = new Mail();
+    this.liste_mail.push(mail);
+  }
+
+  async saveMails(){
+    for(let mail of this.liste_mail){
+      mail.membre = this.membre.id;
+      await this.membreService.createElement(this.membreService.liste.mail,mail);
+    }
+  }
+
 }

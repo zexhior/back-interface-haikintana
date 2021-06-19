@@ -9,5 +9,6 @@ export class Membre{
     nummembre: number[];
     fbmembre: number[];
     mailmembre: number[];
+    presencemembre: number[];
     photoprofil: number;
 }

@@ -42,6 +42,14 @@ export class MembreService {
     );
   }
 
+  async updateElementById(path: string, id: number, element: Object):Promise<any>{
+    return await this.http.put(`${this.baseUrl}/${path}/${id}`, element).toPromise().then(
+      data => {
+        return data;
+      }
+    );
+  }
+
   async createElement(path: string,element: Object) : Promise<any>{
     return this.http.post(`${this.baseUrl}/${path}/`,element).toPromise().then(
       (data) => {

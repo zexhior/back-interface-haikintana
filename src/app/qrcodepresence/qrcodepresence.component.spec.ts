@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiviteInfoComponent } from './activite-info.component';
+import { QrcodepresenceComponent } from './qrcodepresence.component';
 
-describe('ActiviteInfoComponent', () => {
-  let component: ActiviteInfoComponent;
-  let fixture: ComponentFixture<ActiviteInfoComponent>;
+describe('QrcodepresenceComponent', () => {
+  let component: QrcodepresenceComponent;
+  let fixture: ComponentFixture<QrcodepresenceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ActiviteInfoComponent ]
+      declarations: [ QrcodepresenceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActiviteInfoComponent);
+    fixture = TestBed.createComponent(QrcodepresenceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

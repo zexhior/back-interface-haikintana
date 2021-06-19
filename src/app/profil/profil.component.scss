@@ -2,6 +2,7 @@ $width: 100px;
 $height: 100px;
 
 .info{
+    overflow: scroll;
     & .courveture{
         width: 100%;
         height: 200px;

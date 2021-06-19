@@ -20,7 +20,8 @@ import { ProfilComponent } from './profil/profil.component';
 import { PhotoComponent } from './photo/photo.component';
 import { DetailActiviteComponent } from './detail-activite/detail-activite.component';
 import { ResultatComponent } from './resultat/resultat.component';
-import { ActiviteInfoComponent } from './activite-info/activite-info.component';
+import { PresenceComponent } from './presence/presence.component';
+import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ActiviteInfoComponent } from './activite-info/activite-info.component';
     PhotoComponent,
     DetailActiviteComponent,
     ResultatComponent,
-    ActiviteInfoComponent,
+    PresenceComponent,
+    QrcodepresenceComponent,
   ],
   imports: [
     BrowserModule,
