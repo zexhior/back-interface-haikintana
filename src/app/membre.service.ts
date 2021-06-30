@@ -1,7 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CastExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { type } from 'node:os';
+import { TestObject } from 'protractor/built/driverProviders';
+import { Observable, of } from 'rxjs';
+import { AuthService } from './auth.service';
 import { Liste } from './liste_element';
+import { Membre } from './membre';
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +24,28 @@ export class MembreService {
 
   private id: number;
 
-  constructor(private http: HttpClient) { 
-    
+  private membre: Membre;
+
+  constructor(private http: HttpClient, private route:Router,
+    private auth_service: AuthService) { 
+  
   }
 
   setId(id: number){
     this.id = id;
+    localStorage.setItem("id",""+this.id);
   }
 
-  getProfil(): any{
-    return this.http.get(`${this.baseUrl}/membres/${this.id}`);
+  async getProfil<type>(): Promise<type>{
+    this.id = Number.parseInt(localStorage.getItem("id"));
+    return await this.http.get<type>(`${this.baseUrl}/membres/${this.id}`).toPromise().then(
+      data => {
+        return data;
+      }
+    );
   }
 
-  getElementList(path: string): Observable<any>{
+  getElementList(path: string): any{
     return this.http.get(`${this.baseUrl}/${path}/`);
   }
 
@@ -58,7 +73,45 @@ export class MembreService {
     );
   }
 
+  async suppresionElement(path: string,id:number, element: Object) : Promise<any>{
+    return this.http.delete(`${this.baseUrl}/${path}/${id}`,element).toPromise().then(
+      (data) => {
+        return data;
+      }
+    )
+  }
+
+  async authentification(path: string,data: any){
+    return this.http.post(`${this.baseUrl}/${path}/`,data).toPromise().then(
+      data => {
+        return data;
+      }
+    )
+  }
+
   analyseQRCode(urlImage: Object): Observable<any>{
     return this.http.post(`${this.baseUrl}/qrcode/`, urlImage);
   } 
+
+  async savePhotoProfil(formData){
+    await this.http.post(`${this.baseUrl}/membrecreation/`,formData).toPromise().then(
+          data =>{ 
+            console.log("test");
+            console.log(data);
+          }
+        );
+  }
+
+  async updatePhotoProfil(formData){
+    await this.http.put(`${this.baseUrl}/membrecreation/`,formData).toPromise().then(
+          data =>{ 
+            console.log("test");
+            console.log(data);
+          }
+        );
+  }
+
+  logout(){
+    this.auth_service.logout();
+  }
 }

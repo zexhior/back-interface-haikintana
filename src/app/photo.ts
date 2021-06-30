@@ -1,4 +1,6 @@
 export class Photo{
-    url_image: File;
-    activite: number;
+    id: number;
+    image: File;
+    url_image: String;
+    description: number;
 }

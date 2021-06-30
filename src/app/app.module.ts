@@ -13,7 +13,7 @@ import { MembreComponent } from './membre/membre.component';
 import { ActiviteComponent } from './activite/activite.component';
 import { RechercheComponent } from './recherche/recherche.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
 import { ProfilComponent } from './profil/profil.component';
@@ -22,6 +22,10 @@ import { DetailActiviteComponent } from './detail-activite/detail-activite.compo
 import { ResultatComponent } from './resultat/resultat.component';
 import { PresenceComponent } from './presence/presence.component';
 import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.component';
+import { MembreService } from './membre.service';
+import { TokenInterceptorService} from './token-interceptor.service';
+import { AuthService } from './auth.service';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,7 @@ import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.compone
     ResultatComponent,
     PresenceComponent,
     QrcodepresenceComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +54,14 @@ import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.compone
     HttpClientModule,
     NgxQRCodeModule,
     WebcamModule,
-    ReactiveFormsModule
+    HttpClientModule
   ],
-  providers: [],
+  providers: [MembreService, AuthService, 
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

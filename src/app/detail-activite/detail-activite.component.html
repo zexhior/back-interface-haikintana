@@ -1,79 +1,61 @@
 <h1>Detail activité</h1>
 <div *ngIf="addCategorie == true" class="jumbotron">
     <label>Type:</label>
-    <div *ngIf="categorie == null">
-        <input class="form-control input-group" type="text" [(ngModel)]="type">
+    <div *ngIf="modifyCategorie == false">
+        <input class="form-control input-group" type="text" [(ngModel)]="newcategorie.type">
         <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Creer</button>
     </div>
-    <div *ngIf="categorie != null">
-        <input class="form-control input-group" type="text" [(ngModel)]="this.categorie.type">
+    <div *ngIf="modifyCategorie == true">
+        <input class="form-control input-group" type="text" [(ngModel)]="categorie.type">
         <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Modifier</button>
     </div>
 </div>
-<!--<div *ngIf="this.activite != null" class="container jumbotron">
-    <label>Theme :</label>
-    <input class="form-control input-group" type="text" [placeh]="activite.theme">
-    <label>Date :</label>
-    <input class="form-control input-group" type="text" [placeholder]="activite.date">
-    <label>Description : </label>
-    <div *ngFor="let paragraphe of paragraphes">
-        <input class="form-control input-group-append input-group paragraphe" type="text" [value]="paragraphe">
-    </div>
-    <label>Categorie :</label>{{selected}}
-    <div class="categorie">
-        <select [(ngModel)]="selected">
-            <option *ngFor="let categorie of listeCategorie | async" >{{categorie.type}}</option>
-        </select>
-        <button (click)="onChangeCategorie()">+</button>
-        <button>-</button>
-    </div>
-    <label>Description: </label>
-    <button (click)="addParagraphe()">+</button>
-    <button>-</button>
-    <div *ngFor="let paragraphe of paragraphes">
-        <input class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">
-    </div>
-    <label>Photo: </label>
-    <div>
-        <div class="row">
-            <div *ngFor="let photo of urlPhotos" class="col-6 col-md-4 col-lg-3">
-                <img [src]="photo" width="100px" height="100px" [title]="photo">
-            </div>
-        </div>
-        <div class="input-file-container">
-            <input class="input-file" id="my-file" type="file" (change)="addImage($event)">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
-</div>-->
 <div class="container jumbotron">
-    <label>Theme :</label>{{theme}}
-    <input class="form-control input-group" type="text" [(ngModel)]="activite.theme">
-    <label>Date :</label>{{date}}
+    <label>Theme :</label>
+    <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="activite.theme">{{activite.theme}}</textarea>
+    <label>Date :</label>
     <input class="form-control input-group" type="text" [(ngModel)]="activite.date">
-    <label>Categorie :</label>{{selected}}
-    <div class="categorie">
-        <select [(ngModel)]="categorie.type">
-            <option *ngFor="let categorie of listeCategorie | async" >{{categorie.type}}</option>
+    <label>Categorie :</label>{{categorie.type}}
+    <div class="categorie">{{categorie.type}}
+        <select (change)="onSelectedCategorie()" [(ngModel)]="categorie.type">
+            <option *ngFor="let categorie of listeCategorie" >{{categorie.type}}</option>
         </select>
-        <button (click)="onChangeCategorie()">+</button>
-        <button>-</button>
+        <button (click)="onChangeCategorie()" class="btn-info btn">modifier</button>
+        <button (click)="onCreateCategorie()" class="btn-info btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+        </button>
+        <button class="btn-info btn" (click)="onDeleteCategorie()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+        </button>
     </div>
     <label>Description : </label>
-    <button (click)="addParagraphe()">+</button>
-    <button>-</button>
-    <div *ngFor="let paragraphe of paragraphes">{{paragraphe.paragraphe}}
-        <input class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">
-    </div>
-    <div>
-        <div class="row">
-            <div *ngFor="let photo of urlPhotos" class="col-6 col-md-4 col-lg-3">
-                <img [src]="photo" width="100px" height="100px" [title]="photo">
+    <button (click)="addParagraphe()" class="btn-info btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+    </button>
+    <button class="btn-info btn" (click)="deleteParagraphe()">-</button>
+    <div *ngFor="let paragraphe of activite.descriptions">
+        <label>Titre : </label>
+            <input class="form-control input-group" type="text" [(ngModel)]="paragraphe.titre">
+        <label>Photo : </label>
+        <div>
+            <div class="row">
+                <div *ngFor="let photo of paragraphe.photos" class="col-6 col-md-4 col-lg-3">
+                    <img [src]="photo.url_image" width="100px" height="100px" [title]="photo.url_image">
+                </div>
+            </div>
+            <div class="input-file-container">
+                <input class="input-file" id="my-file" type="file" (change)="addImage($event,paragraphe)">
             </div>
         </div>
-        <div class="input-file-container">
-            <input class="input-file" id="my-file" type="file" (change)="addImage($event)">
-        </div>
+        <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">{{paragraphe.paragraphe}}</textarea>
     </div>
-    <button type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
 </div>
+<button *ngIf="id == 0" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
+<button *ngIf="id != 0" type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>

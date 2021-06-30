@@ -1,9 +1,8 @@
 $clr-link: rgba(0,0,155,0.5);
 
 .data{
-    border-radius: 10px;
     height: 450px;
-    overflow: scroll;
+    border-radius: 10px;
     & table{
         width: 100%;
         & .membre{
@@ -12,12 +11,13 @@ $clr-link: rgba(0,0,155,0.5);
             & .statut{
                 background-color: red;
                 border-radius: 100px;
-                padding: 5px;
+                padding: -5px;
                 width:140px;
             }
         }
         & .membre:hover{
             background: $clr-link;
+            border-radius: 100px;
         }
     }
 }

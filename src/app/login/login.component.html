@@ -43,10 +43,11 @@
                     </div>
                     <div class="formulaire">
                         <p class="label-email">Email</p>
-                        <input class="input-group input-email" type="email">
+                        <input class="input-group input-email" type="email" [(ngModel)]="email">
                         <p class="label-mdp">Mot de passe</p>
-                        <input class="input-mdp" type="password">
-                        <a class="btn-info btn button" routerLinkActive="manager" routerLink="/manager">Connexion</a>
+                        <input class="input-mdp" type="password" [(ngModel)]="pwd">
+                        <button class="btn-info btn button" (click)="authentification()">Connexion</button>
+                        <p>{{message}}</p>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,18 @@
+.container{
+    position: fixed;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(240,240,240);
+    box-shadow: 1px 1px 1px 1px gray;
+    & p{
+        font-size: 15px;
+    }
+    & .reponse{
+        display: flex;
+        justify-content: flex-end;
+        & .btn{
+            margin: 10px;
+        }
+    }
+}

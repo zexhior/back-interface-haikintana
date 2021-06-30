@@ -1,8 +1,25 @@
 .container{
+    border-radius: 10px;
     height: 500px;
     overflow: scroll;
+    box-shadow: 1px 1px 1px 1px gray;
     & label{
         margin-top: 20px;
+    }
+    & textarea{
+        padding: 10px;
+        height: 200px;
+        margin-bottom: 10px;
+    }
+    & .btn{
+        border-radius: 100px;
+        margin-left: 10px;
+    }
+    & img{
+        border-radius: 10px;
+    }
+    & input[type='file']{
+        margin: 10px;
     }
     & button[type="submit"]{
         margin-top: 10px;

@@ -15,4 +15,6 @@ export class Liste{
     regle = "regles";
     cotisation = "cotisations";
     paiement = "paiements";
+    statut = "statuts";
+    authentification = "authentification";
 }

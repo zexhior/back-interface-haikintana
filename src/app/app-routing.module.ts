@@ -6,19 +6,21 @@ import { DetailActiviteComponent } from './detail-activite/detail-activite.compo
 import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { MembreComponent } from './membre/membre.component';
-import { PhotoComponent } from './photo/photo.component';
 import { PresenceComponent } from './presence/presence.component';
 import { ProfilComponent } from './profil/profil.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.component';
 import { ResultatComponent } from './resultat/resultat.component';
+import { AuthGuard} from './auth-guard.service'
+import { OtherGuard } from './other-guard.service';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'login', component: LoginComponent},
+  {path: '', pathMatch: 'full', redirectTo: '/login'},
+  {path: 'login', component: LoginComponent,canActivate: [AuthGuard],},
   {path: 'manager', component: ManagerComponent,
+    canActivate: [OtherGuard],
     children: [
-      {path: '', component: AccueilComponent},
+      {path: '', component: AccueilComponent,},
       {path: 'resultat', component: ResultatComponent},
       {path: 'accueil', component: AccueilComponent},
       {path: 'activite', component: ActiviteComponent},

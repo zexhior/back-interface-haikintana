@@ -63,7 +63,7 @@ export class QrcodepresenceComponent implements OnInit {
           this.membre = data;
           console.log(this.membre);
           for(let presencemembre of this.membre.presencemembre){
-            var verification = await this.membreService.getElementById(this.membreService.liste.presence,presencemembre);
+            var verification = await this.membreService.getElementById(this.membreService.liste.presence,presencemembre.id);
             if(verification.activite == this.position){
               this.teste_membre = true;
             }else{
