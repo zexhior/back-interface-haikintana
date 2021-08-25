@@ -1,6 +1,96 @@
-$clr-link: rgba(0,0,155,0.5);
+$clr-link: rgb(1, 1, 88);
+$clr-btn: #967f00;
+$clr-hover: rgba(0, 0, 255, 0.5);
+$clr-nav: rgba(0, 0, 161, 0.726);
 
 .data{
+    & .modification{
+        transform: translateY(-35px);
+        background-color: #FFD700;
+        padding: 5px 20px;
+        border-radius: 100px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        & span{
+            display: inherit;
+            & img{
+                margin-right: 5px;
+            }
+        }
+        & .bouttons{
+            & .btn{
+                background-color: $clr-btn;
+                border-radius: 50%;
+                margin-right: 20px;
+                border: 0px;
+            }
+        }
+    }
+    & .liste-categorie{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        & .navbar-nav{
+            & .nav-item{
+                & .btn-categorie{
+                    background-color: transparent;
+                    color: black;
+                    font-weight: bold;
+                    font-size: 20px;
+                    border: 0px;
+                }
+                & .btn-categorie:hover{
+                    background-color: $clr-hover;
+                    transition: all 300ms ease-in-out;
+                }
+            }
+        }
+        & .btn-info{
+            margin: 0px 10px 0px 10px;
+        }
+    }
+    & .row{
+        & .col-12{
+            & .card{
+                margin-bottom: 20px;
+                & .card-body{
+                    display: flex;
+                    & img{
+                        margin-right: 30px;
+                    }
+                    & .detail{
+                        & .theme{
+                            color: black;
+                            font-size: 20px;
+                            font-weight: bold;
+                        }
+                        & .date{
+                            color: black;
+                            font-size: 15px;
+                            font-weight: bold;
+                            display: flex;
+                        }
+                        & .description{
+                            text-align: justify;
+                        }
+                    }
+                    & button{
+                        margin-top: 10px;
+                    }
+                }
+            }
+            & .card:hover{
+                transform: scale(1.05);
+                transition: transform 300ms ease-in-out;
+                background-color: $clr-hover;
+            }
+        }
+    }
+}
+
+/*.data{
     height: 450px;
     border-radius: 10px;
     & table{
@@ -29,4 +119,4 @@ $clr-link: rgba(0,0,155,0.5);
 
 .marge{
     margin-bottom: 10px;
-}
+}*/

@@ -1,23 +1,45 @@
 <header>
-    <nav class="navbar navbar-expend-md navbar-dark">
-        <img src="../../assets/logo.png" width="70px" height="30px">
-        <div class="dropdown">
-            <button id="boutton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="boutton">
-                <a [routerLink]="['/manager/profil',id]" class="dropdown-item profil">
-                    <img class="img-profil" [src]="urlImage" [title]="urlImage">
-                    <div class="nom">
-                        <p>{{nom}}</p>
-                    </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLinkActive="active" routerLink="accueil">Accueil</a>
-                <a class="dropdown-item" routerLinkActive="active" routerLink="membre">Membres</a>
-                <a class="dropdown-item" routerLinkActive="active" routerLink="activite">Activités</a>
-                <div class="dropdown-divider"></div>
-                <button class="dropdown-item" (click)="logout()">Deconnexion</button>
+    <nav class="navbar navbar-dark">
+        <div id="logo">
+            <img src="../../assets/logo.png" width="70px" height="30px">
+        </div>
+        <div class="navbar-nav navbar-expand">
+            <div class="nav-item active">
+                <img src="../../assets/home-white.svg" width="30px" height="30px">
+                <a routerLinkActive="active" routerLink="accueil">Accueil</a>
+            </div>
+            <div class="nav-item">
+                <img src="../../assets/user-white.svg" width="30px" height="30px">
+                <a routerLink="membre">Membres</a> 
+            </div>
+            <div class="nav-item">
+                <img src="../../assets/menu-white.svg" width="30px" height="30px">
+                <a routerLink="activite">Activités</a>
+            </div>
+        </div>
+        <div class="profil">
+            <button class="btn btn-info deconnexion" (click)="logout()">Deconnexion</button>
+            <a [routerLink]="['/manager/profil',id]" class="img-profil">
+                <img class="img-profil" [src]="urlImage">
+            </a>
+            <div class="dropdown">
+                <button id="boutton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="boutton">
+                    <a [routerLink]="['/manager/profil',id]" class="dropdown-item">
+                        <img class="drop-img-profil" [src]="urlImage" [title]="urlImage">
+                        <div class="nom">
+                            <p>{{nom}}</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" routerLink="accueil">Accueil</a>
+                    <a class="dropdown-item" routerLink="membre">Membres</a>
+                    <a class="dropdown-item" routerLink="activite">Activités</a>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" (click)="logout()">Deconnexion</button>
+                </div>
             </div>
         </div>
     </nav>

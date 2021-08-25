@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Activite } from '../activite';
+import { Activite, ActiviteSave } from '../activite';
+import { Categorie } from '../categorie';
+import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 
 @Component({
@@ -9,23 +11,108 @@ import { MembreService } from '../membre.service';
   styleUrls: ['./activite.component.scss']
 })
 export class ActiviteComponent implements OnInit {
-  public listeActivite : Observable<Activite[]>;
+  public listeActivite : Activite[];
   public position = 2;
-  public urlImage: string = this.membreService.urlImage;
+  public urlImage: string;
   public nbr: number = 1;
+  public listeCategorie: Categorie[];
+  public categorie: string;
+  public new_categorie: string;
+  public modificationCategorie: boolean = false;
+  public creationCategorie: boolean = false;
+  public is_staff: boolean = false;
   constructor(private membreService: MembreService) { }
 
   ngOnInit(): void {
-    this.listeActivite = this.membreService.getElementList(this.membreService.liste.activite);
-    this.getAllActivite();
+    this.getAllCategorie();
+    this.urlImage = this.membreService.liste.base;
   }
 
   async delete(element) {
-    console.log(await this.membreService.suppresionElement(this.membreService.liste.activite, element.id, element));
-    this.getAllActivite();
+    var reponse = await this.membreService.suppresionElement(this.membreService.liste.activite, element.id, element);
+    location.reload();
   }
 
-  getAllActivite(){
-    this.listeActivite = this.membreService.getElementList(this.membreService.liste.activite);
+  getAllActivite(categorie: string){
+    this.categorie = categorie;
+    this.new_categorie = this.categorie;
+    delete this.listeActivite;
+    this.listeActivite = new Array<Activite>();
+    this.membreService.getActiviteFilter(this.membreService.liste.activite,categorie).toPromise().then(
+      data => {
+        this.listeActivite = data;
+      }
+    );
+  }
+
+  async getAllCategorie(){
+    this.listeCategorie = await this.membreService.getElementList(this.membreService.liste.categorie).toPromise().then(
+      data=>{
+        return data;
+      }
+    );
+    this.categorie = this.listeCategorie[0].type;
+    this.getAllActivite(this.categorie);
+    var membre = await this.membreService.getProfil<Membre>();
+    this.is_staff = membre.statut.is_staff;
+  }
+
+  modifierCategorie(){
+    this.modificationCategorie = false;
+    this.new_categorie = this.categorie;
+    this.creationCategorie = false;
+    if(this.modificationCategorie){
+      this.modificationCategorie = false;
+    }else{
+      this.modificationCategorie = true;
+    }
+  }
+
+  creerCategorie(){
+    this.modificationCategorie = false;
+    if(this.creationCategorie){
+      this.creationCategorie = false;
+    }else{
+      this.creationCategorie = true;
+    }
+  }
+
+  async createCategorie(){
+    this.creationCategorie = false;
+    var categorie = new Categorie();
+    categorie.type = this.new_categorie;
+    categorie = await this.membreService.createElement(this.membreService.liste.categorie,categorie);
+    this.listeCategorie.push(categorie);
+  }
+
+  async updateCategorie(){
+    this.modificationCategorie = false;
+    var new_categorie = this.listeCategorie.find(data => data.type == this.categorie);
+    console.log(new_categorie);
+    new_categorie.type = this.new_categorie;
+    new_categorie = await this.membreService.updateElementById(this.membreService.liste.categorie, new_categorie.id, new_categorie);
+  }
+  
+  async deleteCategorie(){
+    var element =  this.listeCategorie.find(data => data.type == this.categorie);
+    this.listeCategorie.splice(this.listeCategorie.findIndex(data=>data.type==this.categorie),1);
+    var categorie = element;
+    categorie.type = this.new_categorie;
+    categorie = await this.membreService.suppresionElement(this.membreService.liste.categorie, categorie.id, categorie);  
+  }
+
+  async cloturer(activite:Activite){
+    if(activite.cloture){
+      activite.cloture = false;
+    }else{
+      activite.cloture = true;
+    }
+    var new_activite = new ActiviteSave();
+    new_activite.id = activite.id;
+    new_activite.theme = activite.theme;
+    new_activite.date = activite.date;
+    new_activite.cloture = activite.cloture;
+    new_activite.categorie = activite.categorie.id;
+    activite = await this.membreService.updateElementById(this.membreService.liste.activite, new_activite.id, new_activite);
   }
 }

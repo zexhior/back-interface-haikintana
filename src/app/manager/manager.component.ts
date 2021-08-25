@@ -11,11 +11,7 @@ export class ManagerComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(localStorage.getItem('body') == 'image'){
-      location.reload();
-      localStorage.removeItem('body');
-    }
-    document.body.style.backgroundColor = "rgb(240, 240, 240)";
+    
   }
 
 }

@@ -1,14 +1,38 @@
 <div class="container">
-    <div class="jumbotron instruction"></div>
-    <div class="container section-activite">
-        <h1>Nouveauté sur les activités</h1>
-        <ul class="list-group-item">
-            <li *ngFor="let activite of listeActivite | async" class="list-group-item-info list-group-item">
-                <div class="activite-list" [routerLink]="['/manager/detail-activite',activite.id]">
-                    <p>{{activite.date}}</p>
-                    <p>{{activite.theme}}</p>
+    <div class="modification">
+        <span>
+            <img src="../../assets/home-white.svg" width="30px" height="30px">
+            <h3>Activités</h3>
+        </span>
+    </div>
+    <div class="titre">
+        <h3>Bienvenue dans le site de gestion des membres 
+        et des activités de l'association 
+        Haikintana</h3>     
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <img src="../../assets/staff-black.svg" width="200px" height="200px">
+                    <p>Si vous êtes un administrateur alors vous 
+                    pouvez modifier et creer des utilisateurs et 
+                    des activités. Votre rôle est de gérer les activités
+                    et les nouveaux membres de l'association. </p>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <img src="../../assets/user-black.svg" width="200px" height="200px">
+                    <p>Si vous êtes un simple utilisateur alors vous 
+                    pouvez regarder les utilisateurs et 
+                    les activités de l'association. Vous pouvez participer
+                    à des activités en marquant votre présence avec votre
+                    identifiant sous forme de code QR </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

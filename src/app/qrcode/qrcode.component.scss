@@ -5,6 +5,19 @@ $width-border:50px;
 $height-border:$width-border;
 $clr-background: rgb(0, 0, 29);
 $border: 5px solid $clr-background;
+$clr-link: rgba(0,0,155,0.5);
+$clr-modification: #FFD700;
+
+.modification{
+    transform: translateY(-35px);
+    background-color: $clr-modification;
+    padding: 5px 20px;
+    border-radius: 100px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
 
 .camera{
     width: $width;

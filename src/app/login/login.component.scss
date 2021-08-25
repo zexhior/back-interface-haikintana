@@ -90,7 +90,7 @@ h3{
     background-color: $clr-card;
     border: 0px;
     width: $w-card;
-    margin: 0px auto 20px auto;
+    margin: 0 auto;
     border-radius: $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card $sz-border-rad-card;
     & .card-body{
         padding: 0px 0px 10px 0px ;
@@ -406,29 +406,5 @@ $pos-y-sac: $pos-y-tronc - $h-tete / 6;
                 transform: translate($pos-x-boutton2, $pos-y-boutton2);
             }
         }
-    }
-}
-
-@keyframes mouvement-tete{
-    0%{
-        transform: translate($pos-x-tete, $pos-y-tete);
-    }
-    50%{
-        transform: translate($pos-x-tete, $pos-y-tete + 5px);
-    }
-    100%{
-        transform: translate($pos-x-tete - 5px, $pos-y-tete + 5px);
-    }
-}
-
-@keyframes mouvement-a-vitre{
-    0%{
-        transform: translate($pos-x-a-vitre, $pos-y-a-vitre);
-    }
-    50%{
-        transform: translate($pos-x-a-vitre, $pos-y-a-vitre + 5px);
-    }
-    100%{
-        transform: translate($pos-x-a-vitre - 3px, $pos-y-a-vitre + 5px);
     }
 }

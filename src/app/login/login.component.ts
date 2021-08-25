@@ -10,7 +10,7 @@ import { MembreService } from '../membre.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public email: '';
+  public username: '';
   public pwd: '';
   public message: string = "";
   private user : any;
@@ -20,16 +20,15 @@ export class LoginComponent implements OnInit {
     private elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    document.body.style.backgroundImage = "url(../assets/background.png)"
+    //document.body.style.backgroundImage = "url(../assets/background.png)";
   }
 
-
   async authentification(){
-    var element = {"adr_mail":this.email,"pwd":this.pwd};
+    var element = {"username":this.username,"pwd":this.pwd};
     var test = await this.membreService.authentification(this.membreService.liste.authentification, element);
     if(test['reponse']==true){
+      console.log("user: "+test['usertoken']);
       await this.goToMain(test['id'],test['username']);
-      location.reload();
     }
     else{
       this.message = test['raison'];

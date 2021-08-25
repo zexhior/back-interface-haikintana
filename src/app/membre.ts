@@ -6,28 +6,32 @@ import { Presence } from "./presence";
 import { Statut } from "./statut";
 
 export class Membre{
-    id: number;
-    nom: string;
-    prenom: string;
+    id:number;
+    username: string;
+    first_name:string;
+    last_name:string;
     adr_phys: string;
     date_add: string;
     linkedin: string;
     statut: Statut;
+    password: string;
+    ref: number;
+    email: string;
     nummembre: Numero[];
     fbmembre: Fb[];
     mailmembre: Mail[];
     presencemembre: Presence[];
     photoprofil: PhotoProfil;
-    mdp: string;
 }
 
 export class MembreSave{
-    id: number;
-    nom: string;
-    prenom: string;
+    id:number;
+    username: string;
+    first_name:string;
+    last_name:string;
     adr_phys: string;
     date_add: string;
     linkedin: string;
     statut: number;
-    mdp: string;
+    ref: number;
 }

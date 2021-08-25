@@ -1,4 +1,132 @@
+$clr-link: rgba(0,0,155,0.5);
+$clr-modification: #FFD700;
+
 .container{
+    & .modification{
+        transform: translateY(-35px);
+        background-color: $clr-modification;
+        padding: 5px 20px;
+        border-radius: 100px;
+        margin-bottom: 50px;
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        & span{
+            display: inherit;
+            & img{
+                margin-right: 5px;
+            }
+        }
+    }
+    & .row{
+        & .info-activite{
+            & textarea{
+                margin-bottom: 5px;
+            }
+            & .card{
+                margin: 20px;
+                & .card-header{
+                    background-color: $clr-link;
+                    display: flex;
+                    justify-content: space-between;
+                    & .btn{
+                        background-color: transparent;
+                        border: 0px;
+                        width: 20px;
+                        margin-right: 10px;
+                        & svg{
+                            width: 15px;
+                        }
+                    }
+                }
+                & .participant{
+                    height: 300px;
+                    overflow: scroll;
+                    & .membre{
+                        &-div{
+                            & img{
+                                margin-right: 20px;
+                                margin-bottom: 10px;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+                }
+                & .card-body{
+                    & .card-title{
+                        & .theme{
+                            color: black;
+                            font-size: 20px;
+                            font-weight: bold;
+                        }
+                        & .date{
+                            display: flex;
+                            color: gray;
+                            font-size: 15px;
+                            font-weight: bold;
+                            & img{
+                                margin-right: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+            & .btn{
+                width: 100%;
+            }
+        }
+        & .description{
+            height: 800px;
+            overflow: scroll;
+            & .card{
+                margin: 20px;
+                & .card-header{
+                    padding: 0px;
+                    border-radius: 15px 15px 0px 0px;
+                    & .description-image{
+                        width: 100%;
+                        height: 300px;
+                        border-radius: 5px 5px 0px 0px;
+                    }
+                    & label{
+                        color: black;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                    & .list-photo{
+                        padding: 20px;
+                        & .photo{
+                            overflow: scroll;
+                            & .btn{
+                                position: absolute;
+                            }
+                        }
+                    }
+                }
+                & .card-body{
+                    & .card-title{
+                        color: black;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                    & .card-text{
+                        color: black;
+                        font-size: 15px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        & .ajouter{
+            & .addDescription{
+                border-radius: 50%;
+                float: right;
+                margin-left: 20px;
+            }
+        }
+    }
+}
+/*.container{
     border-radius: 10px;
     height: 500px;
     overflow: scroll;
@@ -24,4 +152,4 @@
     & button[type="submit"]{
         margin-top: 10px;
     }
-}
+}*/

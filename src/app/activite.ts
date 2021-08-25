@@ -1,5 +1,6 @@
 import { Categorie } from "./categorie";
 import { Description } from "./description";
+import { Presence } from "./presence";
 
 export class Activite{
     id: number;
@@ -7,6 +8,8 @@ export class Activite{
     date: string;
     categorie: Categorie;
     descriptions: Description[];
+    presences: Presence[];
+    cloture: boolean;
 }
 
 export class ActiviteSave{
@@ -14,4 +17,5 @@ export class ActiviteSave{
     theme: string;
     date: string;
     categorie: number;
+    cloture: boolean;
 }

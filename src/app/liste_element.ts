@@ -17,4 +17,5 @@ export class Liste{
     paiement = "paiements";
     statut = "statuts";
     authentification = "authentification";
+    user = "users";
 }

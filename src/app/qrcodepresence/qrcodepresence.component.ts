@@ -24,6 +24,8 @@ export class QrcodepresenceComponent implements OnInit {
 
   public image: Image;
 
+  public message: string = "";
+
   public webcamImage: WebcamImage = null;
 
   elementType = NgxQrcodeElementTypes.URL;
@@ -61,26 +63,19 @@ export class QrcodepresenceComponent implements OnInit {
           console.log("none");
         }else{
           this.membre = data;
-          console.log(this.membre);
-          for(let presencemembre of this.membre.presencemembre){
-            var verification = await this.membreService.getElementById(this.membreService.liste.presence,presencemembre.id);
-            if(verification.activite == this.position){
-              this.teste_membre = true;
+          var presence = this.membre.presencemembre.find(data=> data.activite == this.position)
+          if(presence == undefined){
+            this.message = "Ce membre ne s'est pas inscrit";
+            console.log("popo");
+          }else{
+            if(presence.presence){
+              this.message = "Ce membre est deja present";
             }else{
-              this.teste_membre = false;
-            }
-          }
-          if(this.teste_membre == false){
-            var presence = new Presence();
-            presence.presence=true;
-            presence.contrepersence=false;
-            presence.activite = this.position;
-            presence.membre = this.membre.id;
-            presence = await this.membreService.createElement(this.membreService.liste.presence,presence);
-            if(presence){
-              console.log(presence);
+              presence.presence = true;
+              presence = await this.membreService.updateElementById(this.membreService.liste.presence, presence.id, presence);
               this.route.navigate(['/manager/presence/'+this.membre.id]);
             }
+            console.log("tada");
           }
         }
       }

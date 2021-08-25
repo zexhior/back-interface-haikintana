@@ -1,61 +1,140 @@
-<h1>Detail activité</h1>
-<div *ngIf="addCategorie == true" class="jumbotron">
-    <label>Type:</label>
-    <div *ngIf="modifyCategorie == false">
-        <input class="form-control input-group" type="text" [(ngModel)]="newcategorie.type">
-        <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Creer</button>
+<div class="container">
+    <div class="modification">
+        <span>
+            <img src="../../assets/menu-white.svg" width="30px" height="30px">
+            <h3>Activité</h3>
+        </span>
     </div>
-    <div *ngIf="modifyCategorie == true">
-        <input class="form-control input-group" type="text" [(ngModel)]="categorie.type">
-        <button type="submit" class="btn btn-info" (click)="modifierCategorie()">Modifier</button>
-    </div>
-</div>
-<div class="container jumbotron">
-    <label>Theme :</label>
-    <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="activite.theme">{{activite.theme}}</textarea>
-    <label>Date :</label>
-    <input class="form-control input-group" type="text" [(ngModel)]="activite.date">
-    <label>Categorie :</label>{{categorie.type}}
-    <div class="categorie">{{categorie.type}}
-        <select (change)="onSelectedCategorie()" [(ngModel)]="categorie.type">
-            <option *ngFor="let categorie of listeCategorie" >{{categorie.type}}</option>
-        </select>
-        <button (click)="onChangeCategorie()" class="btn-info btn">modifier</button>
-        <button (click)="onCreateCategorie()" class="btn-info btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg>
-        </button>
-        <button class="btn-info btn" (click)="onDeleteCategorie()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg>
-        </button>
-    </div>
-    <label>Description : </label>
-    <button (click)="addParagraphe()" class="btn-info btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-    </button>
-    <button class="btn-info btn" (click)="deleteParagraphe()">-</button>
-    <div *ngFor="let paragraphe of activite.descriptions">
-        <label>Titre : </label>
-            <input class="form-control input-group" type="text" [(ngModel)]="paragraphe.titre">
-        <label>Photo : </label>
-        <div>
-            <div class="row">
-                <div *ngFor="let photo of paragraphe.photos" class="col-6 col-md-4 col-lg-3">
-                    <img [src]="photo.url_image" width="100px" height="100px" [title]="photo.url_image">
+    <div class="row">
+        <div class="col-12 col-lg-4 info-activite">
+            <button *ngIf="!activite.cloture && !presence && id != 0" class="btn btn-info" (click)="participation()">Participer</button>
+            <button *ngIf="!activite.cloture && presence && id != 0" class="btn btn-info" (click)="participation()">Annuler votre participation</button>
+            <button *ngIf="activite.cloture" class="btn btn-danger">L'événement est clôturé</button>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Activité</h3>
+                    <button *ngIf="is_staff" class="btn-info btn" (click)="modifierInfo()">
+                        <img src="../../assets/edit-black.svg" width="20px" height="20px">
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="id != 0 && !modificationInfo" class="card-title">
+                        <div class="date">
+                            <img src="../../assets/menu-black.svg" width="20px" height="20px">
+                            <p class="theme">{{activite.theme}}</p>
+                        </div>
+                        <div class="date">
+                            <svg style="margin-right:20px;color:black" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            </svg>
+                            <p style="color:black">{{activite.date}}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="id == 0  || modificationInfo" class="card-title">
+                        <div class="date">
+                            <img src="../../assets/menu-black.svg" width="20px" height="20px">
+                            <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="activite.theme">{{activite.theme}}</textarea>
+                        </div>
+                        <div class="date">
+                            <img src="../../assets/user-black.svg" width="20px" height="20px">
+                            <input class="form-control input-group" type="text" [(ngModel)]="activite.date">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="input-file-container">
-                <input class="input-file" id="my-file" type="file" (change)="addImage($event,paragraphe)">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Categorie</h3>
+                    <button *ngIf="is_staff" class="btn-info btn" (click)="modifierCategorieMode()">
+                        <img src="../../assets/edit-black.svg" width="20px" height="20px">
+                    </button>
+                </div>
+                <div class="card-body">
+                    <button *ngIf="id != 0 && !modificationCategorie" class="btn btn-info">{{categorie.type}}</button>
+                    <select *ngIf="id == 0 || modificationCategorie" (change)="onSelectedCategorie()" [(ngModel)]="categorie.type">
+                        <option *ngFor="let categorie of listeCategorie" >{{categorie.type}}</option>
+                    </select>
+                </div>
+            </div>
+            <div *ngIf="participants.length != 0" class="card">
+                <div class="card-header">
+                    <h3>Participant</h3>
+                </div>
+                <div class="card-body participant">
+                    <div *ngFor="let participant of participants" class="membre">
+                        <span class="membre-div">
+                            <img class="photoprofil" [src]="base_url+participant.photoprofil.photo" width="50px" height="50px">
+                            {{participant.last_name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <button *ngIf="id == 0 && is_staff" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
+            <button *ngIf="id != 0 && is_staff" type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
+        </div>
+        <div class="col-12 col-lg-7 description">
+            <div *ngFor="let paragraphe of activite.descriptions" class="card">
+                <div class="card-header">
+                    <img *ngIf="id != 0 && !paragraphe.photos[0] && !modificationDescription" class="description-image" src="../../assets/menu-black.svg">
+                    <img *ngIf="id != 0 && paragraphe.photos[0] && !modificationDescription" 
+                        class="description-image" 
+                        [src]="paragraphe.photos[0].url_image" 
+                        [title]="paragraphe.photos[0].url_image">
+                    <div *ngIf="id == 0 || modificationDescription" class="list-photo">
+                        <label>Photo : </label>
+                        <div class="row photo">
+                            <div *ngFor="let photo of paragraphe.photos" class="col-6 col-md-4 col-lg-3">
+                                <img [src]="photo.url_image" width="100px" height="100px" [title]="photo.url_image">
+                                <button *ngIf="id != 0" (click)="deletePhoto(photo,paragraphe)" class="btn-info btn addDescription">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="input-file-container">
+                            <button *ngIf="is_staff || is_current_membre" class="btn btn-info" type="button" (click)="fileInput.click()">
+                                <span>Upload</span>
+                                <input #fileInput type="file" (change)="addImage($event,paragraphe)" style="display:none;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="id != 0 && !modificationDescription" class="card-title">
+                        <h3>{{paragraphe.titre}}</h3>
+                    </div>
+                    <div *ngIf="id != 0 && !modificationDescription" class="card-text">
+                        <p>{{paragraphe.paragraphe}}</p>
+                    </div>
+                    <div *ngIf="id == 0 || modificationDescription" class="card-title">
+                        <label>Titre : </label>
+                        <input class="form-control input-group" type="text" [(ngModel)]="paragraphe.titre">
+                    </div>
+                    <div *ngIf="id == 0 || modificationDescription" class="card-text">
+                        <label>Description : </label>
+                        <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">{{paragraphe.paragraphe}}</textarea>
+                    </div>
+                    <button *ngIf="is_staff" class="btn-info btn" (click)="deleteParagraphe(paragraphe)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-        <textarea class="form-control input-group-append input-group paragraphe" type="text" [(ngModel)]="paragraphe.paragraphe">{{paragraphe.paragraphe}}</textarea>
+        <div *ngIf="is_staff" class="col-12 col-lg-1 ajouter">
+            <button (click)="addParagraphe()" class="btn-info btn addDescription">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </button>
+            <button *ngIf="id != 0" (click)="modifierDescription()" class="btn-info btn addDescription">
+                <img src="../../assets/edit-white.svg" width="20px" height="20px">
+            </button>
+        </div>
     </div>
 </div>
-<button *ngIf="id == 0" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
-<button *ngIf="id != 0" type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>

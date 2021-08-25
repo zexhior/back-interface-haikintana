@@ -11,7 +11,9 @@ import { Fb } from '../fb';
 import { Mail } from '../mail';
 import { Statut } from '../statut';
 import { AuthService } from '../auth.service';
-import { TestObject } from 'protractor/built/driverProviders';
+import {createEncoder, encodeConfig, decodeConfig} from 'huffman-url-compressor';
+import { User } from '../user';
+import { Activite } from '../activite';
 
 @Component({
   selector: 'app-profil',
@@ -20,21 +22,34 @@ import { TestObject } from 'protractor/built/driverProviders';
 })
 export class ProfilComponent implements OnInit {
   liste: Liste = new Liste;
-  id: number = 0;
+  id: number;
   membre: Membre = new Membre();
   current_membre: Membre = new Membre();
   public file: File;
-  private formData = new FormData();
   public photoprofil: PhotoProfil = null;
   public liste_statut = new Array<Statut>();
-  private new_statut = new Statut();
   public statut = new Statut();
   public change_statut: boolean = false;
   public modify_statut: boolean = false;
   public poste: string;
   public firstpwd: string;
   public message_mdp: string;
-  urlImage: string = "http://127.0.0.1:8000";
+  public mdp: string;
+  public listeActivite: Array<Activite> = new Array<Activite>();
+  public modificationInfo: boolean = false;
+  public modificationContact: boolean = false;
+  public modificationLocalisation: boolean = false;
+  public modificationStatut: boolean = false;
+  public is_staff: boolean = false;
+  public is_current_membre: boolean = true;
+  public current_id: number;
+
+  private onChangeProfil: boolean = false;
+  private user: User = new User();
+  private formData = new FormData();
+  private new_statut = new Statut();
+
+  urlImage: string = this.membreService.urlImage;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -47,125 +62,159 @@ export class ProfilComponent implements OnInit {
     private routeLink: Router, private changeDetection: ChangeDetectorRef) { 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.params['id'];
+    await this.getAllStatut();
     if(this.id != 0){
-      this.getMembre();
+      await this.getMembre();
+      if(this.membre.fbmembre.length == 0){
+        this.membre.fbmembre.push(new Fb());
+      }
+      if(this.membre.nummembre.length == 0){
+        this.membre.nummembre.push(new Numero());
+      }
     }
     else{
+      this.membre.username = "Pseudo";
+      this.membre.last_name = "Nom";
+      this.membre.first_name = "Prénom";
+      this.membre.adr_phys = "Adresse";
+      this.membre.email = "Email@email.com";
       this.membre.mailmembre = [];
       this.membre.fbmembre = [];
       this.membre.nummembre = [];
+      this.membre.nummembre.push(new Numero());
+      this.membre.fbmembre.push(new Fb());
       this.statut = this.liste_statut[0];
+      this.membre.statut = this.statut;
+      console.log('create'+this.statut.poste);
     }
-    this.getAllStatut();
+    var membre = await this.membreService.getProfil<Membre>();
+    this.is_staff = membre.statut.is_staff;
+    this.current_id = membre.id;
+    if(this.id == this.current_id){
+      this.is_current_membre = true;
+    }else{
+      this.is_current_membre = false;
+    }
   }
+
+  
 
   async getMembre(): Promise<void>{
     this.current_membre = await this.membreService.getProfil();
     this.membre = await this.membreService.getElementById(this.liste.membre,this.id);
+    for(let presence of this.membre.presencemembre){
+      this.listeActivite.push(await this.membreService.getElementById(this.membreService.liste.activite, presence.activite));
+    }
     this.urlImage = this.urlImage + this.membre.photoprofil.photo;
-    this.value = this.membre.id+"*"+this.membre.nom+
-    "*"+this.membre.prenom+"*"+this.membre.photoprofil+"*"+this.membre.statut;
+    this.value = this.membre.id+"*"+this.membre.last_name+
+    "*"+this.membre.first_name+"*"+this.membre.photoprofil+"*";+this.membre.statut;
     this.statut = this.membre.statut;
   }
 
+  /*---------------------- Manipulation des informations du membre----------------------------------- */
+
   async callServiceToSaveMembre(): Promise<void>{
-    var membre = new MembreSave();
-    membre.nom = this.membre.nom;
-    membre.prenom = this.membre.prenom;
-    membre.statut = this.membre.statut.id;
-    membre.id = this.membre.id;
-    membre.date_add =this.membre.date_add;
-    membre.adr_phys = this.membre.adr_phys;
-    membre.linkedin = this.membre.linkedin;
-    membre.mdp = this.membre.mdp;
     if(this.id == 0){
       console.log("create membre");
-      membre = await this.membreService.createElement(this.membreService.liste.membre, membre);
-      this.membre.id = membre.id;
+      this.membre.id = (await this.membreService.createElement(this.membreService.liste.membre, this.membre)).id;
       console.log(this.membre);
-      this.callServiceToSavePhoto();
-      this.authService.creationUser(this.membre.id,this.membre.mailmembre[0].adr_mail);
+      await this.callServiceToSavePhoto();
     }
     else{
       console.log("update membre");
       this.callServiceToSavePhoto();
-      membre = await this.membreService.updateElementById(this.membreService.liste.membre, this.id, membre);
+      if(this.membre.password == undefined){
+        this.membre.password = "a";
+      }
+      var membre = await this.membreService.updateElementById(this.membreService.liste.membre, this.id, this.membre);
     }
-    this.saveNumeros();
-    this.saveFbs();
-    this.saveMails();
+    await this.saveNumeros();
+    await this.saveFbs();
+    await this.saveMails();
   }
+
+  /*---------------------- Retour vers la liste des membres----------------------------------- */
+
+  goToListeMembre(){
+    //this.routeLink.navigate(['/manager/membre']);
+    location.reload();
+  }
+
+
+  /*---------------------- Sauvegarde des données----------------------------------- */
 
   async save(){
     if(this.id == 0){
-      if(this.firstpwd == this.membre.mdp){
-        if(this.membre.mdp.length > 7){
-          this.callServiceToSaveMembre();
-          this.goToListeMembre();
+      if(this.membre.password != undefined && this.membre.password.length > 7){
+        if(this.firstpwd == this.membre.password){
+          await this.callServiceToSaveMembre();
         }else{
-          this.message_mdp = "Mot de passe trop court";
+          this.message_mdp = "Les deux mot de passe ne se correspondent pas";
         }
       }
       else{
-        this.message_mdp = "Les deux mot de passe ne se correspondent pas";
+        this.message_mdp = "Mot de passe trop court";
       }
     }
     else{
-      this.callServiceToSaveMembre();
-      this.goToListeMembre();
+      await this.callServiceToSaveMembre();
     }
-  }
-
-  goToListeMembre(){
-    this.routeLink.navigate(['/manager/membre']);
+    this.goToListeMembre();
   }
 
   onSubmit(){
     this.save();
   }
 
+  /*---------------------- manipulation du photo de profil----------------------------------- */
+
   async callServiceToSavePhoto(){
     console.log("save photo");
-    this.formData.append('photo', this.membre.photoprofil.photo,this.membre.nom+"_"+this.membre.prenom+".jpg");
-    this.formData.append('membre',""+this.membre.id);
-    if(this.membre.photoprofil.id == undefined){
-      console.log("create photo :");
-      this.membreService.savePhotoProfil(this.formData);
+    console.log(this.membre.photoprofil);
+    if(this.onChangeProfil){
+      this.formData.append('photo', this.membre.photoprofil.photo,this.membre.last_name+"_"+this.membre.first_name+".jpg");
+      this.formData.append('membre',""+this.membre.id);
+      if(this.membre.photoprofil.id === undefined){
+        console.log("create photo :");
+        var photo = await this.membreService.savePhotoProfil(this.formData);
+      }
+      else{
+        console.log("udpate photo :");
+        console.log(this.membre.photoprofil);
+        this.formData.append('id',this.membre.photoprofil.id.toString());
+        var photo = await this.membreService.updatePhotoProfil(this.formData);
+      }
     }
-    else{
-      console.log("udpate photo :");
-      this.formData.append('id',""+this.membre.photoprofil.id);
-      this.membreService.updatePhotoProfil(this.formData);
-    }
-    console.log("id : "+this.formData.get('id'));
-    console.log("photo : "+this.formData.get('photo'));
-    console.log("membre : "+this.formData.get('membre'));
   }
 
   getImage(event){
-    this.file = event.target.files[0];
-    if(this.membre.photoprofil == null){
+    if(this.membre.photoprofil == undefined){
       this.membre.photoprofil = new PhotoProfil();
     }
-    this.membre.photoprofil.photo = this.file;
-    console.log(this.membre.photoprofil.photo);
+    this.onChangeProfil = true;
+    this.membre.photoprofil.photo = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(this.membre.photoprofil.photo);
     reader.onload = (_event)=>{
       this.urlImage = reader.result.toString();
+      console.log(this.membre.photoprofil);
     }
   }
+
+  /*---------------------- manipulation des numeros----------------------------------- */
 
   addNum(): void{
     var num = new Numero();
     this.membre.nummembre.push(num);
   }
 
-  async deleteLastNum(){
-    var numero = this.membre.nummembre.pop();
-    console.log(this.membreService.suppresionElement(this.membreService.liste.numero, numero.id, numero));
+  async deleteNum(numero:Numero){
+    var num = this.membre.nummembre.splice(this.membre.nummembre.findIndex(data => data == numero),1);
+    if(numero.id != undefined){
+      console.log(this.membreService.suppresionElement(this.membreService.liste.numero, numero.id, numero));
+    }
   }
 
   async saveNumeros(){
@@ -180,14 +229,18 @@ export class ProfilComponent implements OnInit {
     console.log(num);
   }
 
+  /*---------------------- manipulation des comptes fb----------------------------------- */
+
   addFb(): void{
     var fb = new Fb();
     this.membre.fbmembre.push(fb);
   }
 
-  async deleteLastFb(){
-    var fb = this.membre.fbmembre.pop();
-    console.log(this.membreService.suppresionElement(this.membreService.liste.fb, fb.id, fb));
+  async deleteFb(fb:Fb){
+    var compte = this.membre.fbmembre.splice(this.membre.fbmembre.findIndex(data=>data==fb),1);
+    if(fb.id != undefined){
+      console.log(this.membreService.suppresionElement(this.membreService.liste.fb, fb.id, fb));
+    }
   }
 
   async saveFbs(){
@@ -199,6 +252,8 @@ export class ProfilComponent implements OnInit {
       await this.membreService.createElement(this.membreService.liste.fb,fb);
     })
   }
+
+  /*---------------------- manipulation des mails----------------------------------- */
 
   addMail(): void{
     var mail = new Mail();
@@ -219,20 +274,16 @@ export class ProfilComponent implements OnInit {
       await this.membreService.createElement(this.membreService.liste.mail,mail);
     })
   }
+
+  /*---------------------- manipulation des status----------------------------------- */
   
   async getAllStatut(){
     await this.membreService.getElementList(this.membreService.liste.statut).toPromise().then(
       data =>{
         this.liste_statut = data;
+        console.log(this.liste_statut);
       }
-    )
-    if(this.id == 0){
-      this.statut = this.liste_statut[0];
-      this.membre.statut = this.statut;
-    }else{
-      this.statut = await this.membreService.getElementById(this.membreService.liste.statut, this.membre.statut.id);
-    }
-    console.log(this.membre);
+    );
   }
 
   async changeStatut(){
@@ -270,4 +321,36 @@ export class ProfilComponent implements OnInit {
     console.log(await this.membreService.suppresionElement(this.membreService.liste.statut, this.statut.id, this.statut));
   }
 
+  /*---------- mode modification ----------*/
+  modifierInfo(){
+    if(this.modificationInfo){
+      this.modificationInfo = false;
+    }else{
+      this.modificationInfo = true;
+    }
+  }
+
+  modifierContact(){
+    if(this.modificationContact){
+      this.modificationContact = false;
+    }else{
+      this.modificationContact = true;
+    }
+  }
+
+  modifierLocalisation(){
+    if(this.modificationLocalisation){
+      this.modificationLocalisation = false;
+    }else{
+      this.modificationLocalisation = true;
+    }
+  }
+
+  modifierStatutMode(){
+    if(this.modificationStatut){
+      this.modificationStatut = false;
+    }else{
+      this.modificationStatut = true;
+    }
+  }
 }

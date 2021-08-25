@@ -2,8 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CastExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { type } from 'node:os';
-import { TestObject } from 'protractor/built/driverProviders';
 import { Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Liste } from './liste_element';
@@ -26,8 +24,7 @@ export class MembreService {
 
   private membre: Membre;
 
-  constructor(private http: HttpClient, private route:Router,
-    private auth_service: AuthService) { 
+  constructor(private http: HttpClient, private route:Router) { 
   
   }
 
@@ -111,7 +108,11 @@ export class MembreService {
         );
   }
 
-  logout(){
-    this.auth_service.logout();
+  getActiviteFilter(path:string, categorie: string): any{
+    return this.http.get(`${this.baseUrl}/${path}/${categorie}`);
+  }
+
+  getMembreFilter(path:string, statut:string): any{
+    return this.http.get(`${this.baseUrl}/${path}/${statut}`);
   }
 }

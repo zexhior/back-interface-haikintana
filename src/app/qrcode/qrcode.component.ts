@@ -26,6 +26,8 @@ export class QrcodeComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = "";
 
+  trigger: Subject<void> = new Subject<void>();
+
   constructor(private membreService: MembreService, private route: Router,
     private route_activate: ActivatedRoute) {
   }
@@ -36,13 +38,11 @@ export class QrcodeComponent implements OnInit {
     });
   }
 
-  trigger: Subject<void> = new Subject<void>();
-
-  triggerSnapshot(): void{
+  /*triggerSnapshot(): void{
     this.mySub = interval(3000).subscribe(()=>{
       this.trigger.next();
     });
-  }
+  }*/
   
   handleImage(webcamImage): void{
     console.info('received webcam image', webcamImage);

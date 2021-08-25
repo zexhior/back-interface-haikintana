@@ -12,12 +12,11 @@ import { PhotoProfil } from '../photoprofil';
 export class PresenceComponent implements OnInit {
   
   public id: number;
-  public membre: Membre;
+  public membre: Membre = new Membre();
   public urlImage: string;
 
   constructor(private membresService: MembreService, 
     private route_activated: ActivatedRoute) { 
-
   }
 
   async ngOnInit(): Promise<void> {

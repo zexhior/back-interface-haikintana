@@ -1,96 +1,284 @@
-<div *ngIf="change_statut == true" class="container jumbotron">
-  <label>Statut:</label>
-  <div *ngIf="modify_statut == false">{{poste}}
-    <input class="form-control" type="text" [(ngModel)]="poste">
-    <button type="submit" class="btn btn-info" (click)="changeStatut()">Creer</button>
+<div class="container">
+  <div class="modification">
+      <span>
+        <img src="../../assets/user-white.svg" width="30px" height="30px">
+        <h3>Profil</h3>
+      </span>
   </div>
-  <div *ngIf="modify_statut == true">{{statut.poste}}
-    <input class="form-control" type="text" [(ngModel)]="statut.poste">
-    <button type="submit" class="btn btn-info" (click)="changeStatut()">Modifier</button>
+  <div class="row">
+    <div class="col-12 col-md-4 col-lg-4 detail-profil ">
+      <div class="photoprofil">
+        <div *ngIf="membre.photoprofil" class="image-profil">
+          <button *ngIf="is_staff || is_current_membre" class="btn btn-info" type="button" (click)="fileInput.click()">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
+                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"/>
+                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+              </svg>
+            </span>
+            <input #fileInput type="file" (change)="getImage($event)" style="display:none;" />
+          </button>
+          <img [title]="urlImage" [src]="urlImage" width="100px" height="100px">
+        </div>
+        <div *ngIf="!membre.photoprofil" class="image-profil">
+          <button *ngIf="is_staff || is_current_membre" class="btn btn-info" type="button" (click)="fileInput.click()">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
+                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"/>
+                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+              </svg>
+            </span>
+            <input #fileInput type="file" (change)="getImage($event)" style="display:none;" />
+          </button>
+          <img src="../../assets/profil.jpg" width="100px" height="100px">
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Info</h3>
+            <button *ngIf="id != 0 && (is_staff || is_current_membre)" class="btn-info btn" (click)="modifierInfo()">
+              <img src="../../assets/edit-black.svg" width="20px" height="20px">
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="id != 0 && !modificationInfo" class="card-text">
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <div>{{membre.username}}</div>
+            </span>
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <div>{{membre.last_name}}</div>
+            </span>
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <div>{{membre.first_name}}</div>
+            </span>
+          </div>
+          <div *ngIf="id == 0 || modificationInfo" class="card-text">
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="membre.username"> 
+            </span>
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="membre.last_name">
+            </span>
+            <span class="information">
+              <img src="../../assets/user-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="membre.first_name">
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Contact</h3>
+            <button  *ngIf="id != 0 && (is_staff || is_current_membre)" class="btn-info btn" (click)="modifierContact()">
+              <img src="../../assets/edit-black.svg" width="20px" height="20px">
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="id != 0 && !modificationContact" class="card-text">
+            <div class="row">
+              <div class="col-2">
+                <img src="../../assets/mail-black.svg" width="20px" height="20px">
+              </div>
+              <div class="col-10">{{membre.email}}</div>
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <img src="../../assets/linkedin-black.svg" width="20px" height="20px">
+              </div>
+              <div class="col-10">{{membre.linkedin}}</div>
+            </div>
+            <div class="row">
+              <div class="col-2">
+                              <img src="../../assets/call-black.svg" width="20px" height="20px">
+              </div>
+              <div class="col-10">
+                <div *ngFor="let numero of membre.nummembre" ><label>{{numero.numero}}</label></div>
+              </div>
+            </div>
+            <div  class="row">
+              <div class="col-2">
+                <img src="../../assets/fb-black.svg" width="20px" height="20px">
+              </div>
+              <div class="col-10">
+                <div *ngFor="let fb of membre.fbmembre"><label>{{fb.nom_compte}}</label></div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="id == 0 || modificationContact" class="card-text">
+            <div class="information">
+              <img src="../../assets/mail-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="this.membre.email">
+            </div>
+            <div class="information">
+              <img src="../../assets/linkedin-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="this.membre.linkedin">
+            </div>
+            <div class="row">
+              <div class="img-row">
+                <img src="../../assets/call-black.svg" width="20px" height="20px">
+              </div>
+              <div class="numero">
+                <div *ngFor="let numero of membre.nummembre" class="sous-numero">
+                  <input class="form-control" type="text" [(ngModel)]="numero.numero">
+                  <button *ngIf="is_staff" class="btn btn-info" (click)="deleteNum(numero)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button *ngIf="is_staff || is_current_membre" class="btn-info btn" (click)="addNum()">
+                  <img src="../../assets/add-black.svg" width="20px" height="20px">
+                </button>
+              </div>
+            </div>
+            <div  class="row">
+              <div class="img-row">
+                <img src="../../assets/fb-black.svg" width="20px" height="20px">
+              </div>
+              <div class="numero">
+                <div *ngFor="let fb of membre.fbmembre" class="sous-numero">
+                  <input class="form-control" type="text" [(ngModel)]="fb.nom_compte">
+                  <button class="btn btn-info" (click)="deleteFb(fb)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button class="btn-info btn" (click)="addFb()">
+                  <img src="../../assets/add-black.svg" width="20px" height="20px">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Localisation</h3>
+            <button *ngIf="id != 0 && (is_staff || is_current_membre)" class="btn-info btn" (click)="modifierLocalisation()">
+              <img src="../../assets/edit-black.svg" width="20px" height="20px">
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="id != 0 && !modificationLocalisation" class="card-text">
+            <div class="information">
+              <img src="../../assets/home-black.svg" width="20px" height="20px">
+              <div>{{membre.adr_phys}}</div>
+            </div>
+          </div>
+          <div *ngIf="id == 0 || modificationLocalisation" class="card-text">
+            <div class="information">
+              <img src="../../assets/home-black.svg" width="20px" height="20px">
+              <input class="form-control" type="text" [(ngModel)]="membre.adr_phys">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Statut</h3>
+            <button  *ngIf="id != 0 && (is_staff || is_current_membre)" class="btn-info btn" (click)="modifierStatutMode()">
+              <img src="../../assets/edit-black.svg" width="20px" height="20px">
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="id != 0 && !modificationStatut" class="card-text">
+            <button class="btn btn-info">{{membre.statut.poste}}</button>
+          </div>
+          <div *ngIf="id == 0 || modificationStatut" class="card-text">
+            <select (change)="onChangeStatut()" [(ngModel)]="statut.poste">
+              <option *ngFor="let element of liste_statut">{{element.poste}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="id != 0" class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Qrcode</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <div class="generator-qrcode">
+              <ngx-qrcode
+              [elementType]="elementType"
+              [errorCorrectionLevel]="correctionLevel"
+              [value]="value"
+              cssClass="bshadow"></ngx-qrcode>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="id != 0 && (is_staff || is_current_membre)" class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Mot de passe</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <input class="form-control" type="password" [(ngModel)]="membre.password">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="id == 0" class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Mot de passe</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <label>Mot de passe: </label>
+            <input class="form-control" type="password" [(ngModel)]="firstpwd">
+            <label>Confirmer mot de passe: </label>
+            <input class="form-control" type="password" [(ngModel)]="membre.password">
+          </div>
+          <p id="message">{{message_mdp}}</p>
+        </div>
+      </div>
+      <button *ngIf="id == 0 && (is_staff || is_current_membre)" type="submit" class="submit btn btn-info" (click)="onSubmit()">Creer</button>
+      <button *ngIf="id != 0 && (is_staff || is_current_membre)" type="submit" class="submit btn btn-info" (click)="onSubmit()">Modifier</button>
+    </div>
+    <div class="col-12 col-md-8 col-lg-8 activite-membre">
+      <div *ngFor="let activite of listeActivite" class="col-12">
+        <div [routerLink]="['/manager/detail-activite',activite.id]" class="card">
+          <div class="card-header">
+            <img *ngIf="!activite.descriptions[0].photos[0]" src="../../assets/menu-black.svg" width="300px" height="300px">
+            <img *ngIf="activite.descriptions[0].photos[0]" [src]="activite.descriptions[0].photos[0].url_image" width="300px" height="300px">
+          </div>
+          <div class="card-body">
+            <div class="detail">
+                <p class="theme">{{activite.theme}}</p>
+                <div class="date">
+                    <img src="../../assets/user-black.svg" width="20px" height="20px">
+                    <p>{{activite.date}}</p>
+                </div>
+                <p class="description">{{activite.descriptions[0].paragraphe}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="container info">
-  <div *ngIf="membre.photoprofil" class="image-profil">
-    <img [title]="urlImage" [src]="urlImage" width="100px" height="100px">
-  </div>
-  <div class="add-image-profil">
-    <input class="btn btn-info" type="file" (change)="getImage($event)">
-  </div> 
-  <label>Nom:</label>
-  <input class="form-control" type="text" [(ngModel)]="membre.nom">
-  <label>Prénom: </label>
-  <input class="form-control" type="text" [(ngModel)]="membre.prenom">
-  <label>Adresse: </label>
-  <input class="form-control" type="text" [(ngModel)]="membre.adr_phys">
-  <label>Statut: </label>
-  <div>{{statut.poste}}
-    <select (change)="onChangeStatut()" [(ngModel)]="statut.poste">{{membre.statut.poste}}
-      <option *ngFor="let element of liste_statut">{{element.poste}}</option>
-    </select>
-    <button (click)="modifierStatut()" class="btn-info btn">modifier</button>
-    <button (click)="onCreateStatut()" class="btn-info btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-      </svg>
-    </button>
-    <button class="btn-info btn" (click)="onDeleteStatut()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-      </svg>
-    </button>
-  </div>
-  <label>Linkedin: </label>
-  <input class="form-control" type="text" [(ngModel)]="this.membre.linkedin">
-  <label>Telephone:</label>
-  <button class="btn-info btn" (click)="addNum()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-    </svg>
-  </button>
-  <button class="btn-info btn" (click)="deleteLastNum()">-</button>
-  <div *ngFor="let numero of membre.nummembre">
-    <input class="form-control" type="text" [(ngModel)]="numero.numero">
-  </div>
-  <label>Facebook:</label>
-  <button class="btn-info btn" (click)="addFb()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-    </svg>
-  </button>
-  <button class="btn-info btn" (click)="deleteLastFb()">-</button>
-  <div *ngFor="let fb of membre.fbmembre">
-    <input class="form-control" type="text" [(ngModel)]="fb.nom_compte">
-  </div>
-  <label>E-mail:</label>
-  <button class="btn-info btn" (click)="addMail()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-    </svg>
-  </button>
-  <button class="btn-info btn" (click)="deleteLastMail()">-</button>
-  <div *ngFor="let mail of membre.mailmembre">
-    <input class="form-control" type="text" [(ngModel)]="mail.adr_mail">
-  </div>
-  <label *ngIf="id != 0">Qrcode: </label>
-  <div *ngIf="id != 0" class="generator-qrcode">
-    <ngx-qrcode
-    [elementType]="elementType"
-    [errorCorrectionLevel]="correctionLevel"
-    [value]="value"
-    cssClass="bshadow"></ngx-qrcode>
-  </div>
-  <div *ngIf="id == 0">
-    <label>Mot de passe: </label>{{firstpwd}}
-    <input class="form-control" type="password" [(ngModel)]="firstpwd">
-    <label>Confirmer mot de passe: </label>{{membre.mdp}}
-    <input class="form-control" type="password" [(ngModel)]="membre.mdp">
-    <p id="message">{{message_mdp}}</p>
-  </div>
-  <div *ngIf="membre.id == current_membre.id">
-    <label>Mot de passe: </label>{{membre.mdp}}
-    <input class="form-control" type="password" [(ngModel)]="membre.mdp">
-  </div>
-</div>
-<button *ngIf="id == 0" type="submit" class="submit btn btn-info" (click)="onSubmit()">Creer</button>
-<button *ngIf="id != 0" type="submit" class="submit btn btn-info" (click)="onSubmit()">Modifier</button>

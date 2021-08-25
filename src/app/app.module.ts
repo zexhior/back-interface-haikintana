@@ -25,7 +25,10 @@ import { QrcodepresenceComponent } from './qrcodepresence/qrcodepresence.compone
 import { MembreService } from './membre.service';
 import { TokenInterceptorService} from './token-interceptor.service';
 import { AuthService } from './auth.service';
-import { MessageComponent } from './message/message.component';
+import {CarouselModule} from 'ngx-bootstrap/carousel';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule} from '@angular/material/slider';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -45,7 +48,6 @@ import { MessageComponent } from './message/message.component';
     ResultatComponent,
     PresenceComponent,
     QrcodepresenceComponent,
-    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,14 +56,21 @@ import { MessageComponent } from './message/message.component';
     HttpClientModule,
     NgxQRCodeModule,
     WebcamModule,
-    HttpClientModule
+    HttpClientModule,
+    CarouselModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    NgbModule,
   ],
-  providers: [MembreService, AuthService, 
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptorService,
-    multi: true
-  }],
+  providers: [
+    MembreService, 
+    AuthService, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,19 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { runInThisContext } from 'node:vm';
-import { Observable } from 'rxjs';
+import { CarouselConfig } from 'ngx-bootstrap/carousel';
 import { Activite, ActiviteSave } from '../activite';
 import { Categorie } from '../categorie';
 import { Description } from '../description';
+import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import { Photo } from '../photo';
-import { PhotoProfil } from '../photoprofil';
+import { Presence } from '../presence';
 
 @Component({
   selector: 'app-detail-activite',
   templateUrl: './detail-activite.component.html',
+  providers: [
+    { provide: CarouselConfig, useValue: { interval: 1500, noPause: false, showIndicators: true } }
+  ],
   styleUrls: ['./detail-activite.component.scss']
 })
 export class DetailActiviteComponent implements OnInit {
@@ -24,13 +26,23 @@ export class DetailActiviteComponent implements OnInit {
   public newcategorie: Categorie = new Categorie();
   public addCategorie: boolean = false;
   public modifyCategorie: boolean = false;
+  public participants: Array<Membre> = new Array<Membre>();
   public urlPhotos = new Array<any>();
+  public base_url: string;
+  public modificationInfo: boolean = false;
+  public modificationCategorie: boolean = false;
+  public modificationDescription: boolean = false;
+  public is_staff: boolean= false;
+  public presence: boolean= false;
+  noWrapSlides = false;
+  showIndicator = true;
   private counter_image = 0;
 
   constructor(private membreService: MembreService, private route: ActivatedRoute,
     private routeNavigate: Router,private http: HttpClient) { }
 
   async ngOnInit(): Promise<void> {
+    this.base_url = this.membreService.liste.base;
     this.id = this.route.snapshot.params['id'];
     await this.membreService.getElementList(this.membreService.liste.categorie).toPromise().then((data)=>{
       this.listeCategorie = data;
@@ -44,7 +56,14 @@ export class DetailActiviteComponent implements OnInit {
       this.activite.descriptions.push(description);
     }
     else{
-      this.getActivite();
+      await this.getActivite();
+      var membre = await this.membreService.getProfil<Membre>();
+      this.is_staff = membre.statut.is_staff;
+      var presence = this.activite.presences.find(data=>data.membre==membre.id);
+      console.log(presence.presence);
+      if(presence != undefined){
+        this.presence = true;
+      }
     }
   }
 
@@ -54,7 +73,13 @@ export class DetailActiviteComponent implements OnInit {
 
   async getActivite(): Promise<void>{
     this.activite = await this.membreService.getElementById(this.membreService.liste.activite,this.id);
+    console.log(this.activite);
+    for(let presence of this.activite.presences){
+      this.participants.push(await this.membreService.getElementById(this.membreService.liste.membre,presence.membre));
+    }
+    console.log(this.activite.presences);
     this.categorie = await this.membreService.getElementById(this.membreService.liste.categorie, this.activite.categorie.id);
+    console.log(this.activite.presences);
   }
 
   async save(){
@@ -65,6 +90,7 @@ export class DetailActiviteComponent implements OnInit {
     activite.id = this.activite.id;
     if(this.activite.id == undefined){
       activite = await this.membreService.createElement(this.membreService.liste.activite, activite);
+      this.activite.id = activite.id;
     }else{
       activite = await this.membreService.updateElementById(this.membreService.liste.activite, this.activite.id, activite);
     }
@@ -115,10 +141,12 @@ export class DetailActiviteComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = (_event)=>{
       photo.url_image = reader.result.toString();
-      //this.urlPhotos.push(reader.result);
     }
     photo.description = this.id;
     var index = this.activite.descriptions.findIndex(obj => obj == paragraphe);
+    if(this.activite.descriptions[index].photos == undefined){
+      this.activite.descriptions[index].photos = [];
+    }
     this.activite.descriptions[index].photos.push(photo);
     this.counter_image++;
   }
@@ -128,6 +156,7 @@ export class DetailActiviteComponent implements OnInit {
     this.activite.descriptions.push(paragraphe);
     var index = this.activite.descriptions.indexOf(paragraphe);
     this.activite.descriptions[index].photos = new Array<Photo>();
+    this.modificationDescription = true;
   }
 
   saveParagraphe(){
@@ -157,20 +186,81 @@ export class DetailActiviteComponent implements OnInit {
   async createPhoto(photo: Photo,id: number, num: number){
     var formdata = new FormData();
     var nom : string = "description"+id.toString()+"NUM"+num.toString()+".jpg";
+    photo.url_image = this.membreService.urlImage+"/media/images/"+nom;
     this.counter_image-=1;
     formdata.append('description',""+id);
     formdata.append('image', photo.image, nom);
-    formdata.append('url_image', "http://127.0.0.1:8000/media/images/"+nom);
+    formdata.append('url_image', photo.url_image.toString());
     formdata.forEach(element=>{console.log(element);});
-    await this.http.post("http://127.0.0.1:8000/api/photocreation/",formdata).toPromise().then(
+    await this.http.post(`${this.membreService.urlImage}/api/photocreation/`,formdata).toPromise().then(
       data =>{ 
         console.log(data);
       }
     );
   }
 
-  async deleteParagraphe(){
-    var description = this.activite.descriptions.pop();
-    description = await this.membreService.suppresionElement(this.membreService.liste.description, description.id, description);
+  async deleteParagraphe(description:Description){
+    if(description.id!=undefined){
+      var element = await this.membreService.suppresionElement(this.membreService.liste.description, description.id, description);
+    }
+    var descriptions = this.activite.descriptions.splice(this.activite.descriptions.findIndex(data=>data.id==description.id),1);
+  }
+
+  /*--------------- manipulation membre presence -----------------*/
+  async getMembre(id){
+    var membre = await this.membreService.getElementById(this.membreService.liste.membre,id);
+    return membre;
+  }
+
+  /*-------------modification-------------*/
+  modifierInfo(){
+    if(this.modificationInfo){
+      this.modificationInfo = false;
+    }else{
+      this.modificationInfo = true;
+    }
+  }
+
+  modifierCategorieMode(){
+    if(this.modificationCategorie){
+      this.modificationCategorie = false;
+    }else{
+      this.modificationCategorie = true;
+    }
+  }
+
+  modifierDescription(){
+    if(this.modificationDescription){
+      this.modificationDescription = false;
+    }else{
+      this.modificationDescription = true;
+    }
+  }
+
+  async deletePhoto(photo:Photo,description:Description){
+    var element = await this.membreService.suppresionElement(this.membreService.liste.photo,photo.id,photo);
+    var descr = this.activite.descriptions.find(data=>data.id == description.id)
+    var photos = descr.photos.splice(descr.photos.findIndex(data=>data==photo),1);
+  }
+
+  async participation(){
+    var membre = await this.membreService.getProfil<Membre>();
+    var presence = this.activite.presences.find(data => data.membre == membre.id);
+    if(this.presence){
+      this.presence = false;
+      this.activite.presences.splice(this.activite.presences.findIndex(data=>data.id==presence.id),1);
+      var participants = this.participants.splice(this.participants.findIndex(data=> data == membre),1);
+      await this.membreService.suppresionElement(this.membreService.liste.presence,presence.id, presence);
+    }else{
+      this.presence = true;
+      presence = new Presence();
+      presence.activite = this.activite.id;
+      presence.contrepersence = false;
+      presence.membre = membre.id;
+      presence.presence = false;
+      this.activite.presences.push(presence);
+      this.participants.push(membre);
+      presence = await this.membreService.createElement(this.membreService.liste.presence,presence);
+    }
   }
 }

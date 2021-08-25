@@ -1,24 +1,75 @@
-<app-recherche  [position]="position" ></app-recherche>
-<div class="container data table-info">
-    <table>
-        <tr class="d-table-row">
-            <td class="d-table-cell d-table"><p>Statut</p></td>
-            <td class="d-table-cell d-table"><p>Nom</p></td>
-            <td class="d-table-cell d-table"><p>Prenom</p></td>
-        </tr>
-        <tr class="d-table-row membre" *ngFor="let membre of liste_membre">
-            <td class="d-table-cell d-table" [routerLink]="['/manager/profil',membre.id]"><div class="statut">{{membre.statut.poste}}</div></td>
-            <td class="d-table-cell d-table" [routerLink]="['/manager/profil',membre.id]">{{ membre.nom}}</td>
-            <td class="d-table-cell d-table" [routerLink]="['/manager/profil',membre.id]">{{ membre.prenom}}</td>
-            <td class="d-table-cell d-table">
-                <button class="btn btn-info" (click)="delete(membre)">
+<div class="container data">
+    <div class="modification">
+        <span>
+            <img src="../../assets/user-white.svg" width="30px" height="30px">
+            <h3>Membres</h3>
+        </span>
+        <div class="bouttons">
+            <a *ngIf="is_staff" routerLink="/manager/profil/0" class="btn btn-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </a>
+            <a routerLinkActive="active" routerLink="/manager/qrcode" class="btn btn-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+                    <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="navbar navbar-expand liste-statut">
+        <div *ngFor="let statut of liste_statut"class="navbar-nav">
+            <div class="nav-item"><button class="btn btn-statut" (click)="selectionnerStatut(statut)">{{statut.poste}}</button></div>
+        </div>
+        <button *ngIf="is_staff" (click)="creerStatut()" class="btn btn-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+        </button>
+        <button *ngIf="is_staff" (click)="modifierStatut()" class="btn btn-info">
+            <img src="../../assets/edit-white.svg" width="20px" height="20px">
+        </button>
+        <button *ngIf="is_staff" class="btn-info btn" (click)="deleteStatut()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+        </button>
+    </div>
+    <div *ngIf="modification_statut || creation_statut" class="card statut">
+        <div class="card-header">
+            Categorie
+        </div>
+        <div class="card-body">
+            <input class="form-control" type="text" [(ngModel)]="new_statut">
+        </div>
+        <button *ngIf="creation_statut" (click)="createStatut()" class="btn btn-info">Creer</button>
+        <button *ngIf="modification_statut" (click)="updateStatut(statut)" class="btn btn-info">Modifier</button>
+    </div>
+    <div class="row">
+        <div *ngFor="let membre of liste_membre" class="col-12 col-lg-3">
+            <div class="boutton">
+                <button *ngIf="is_staff" class="btn btn-info" (click)="delete(membre)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                     </svg>
                 </button>
-            </td>
-        </tr>
-    </table>
+            </div>
+            <div [routerLink]="['/manager/profil',membre.id]" class="card">
+                <div class="card-header">
+                    <img class="photoprofil" [src]="base_url+membre.photoprofil.photo" [title]="[base_url,membre.photo]">
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <p>{{membre.first_name}}</p>
+                    </div>
+                    <div class="card-text">
+                        <p>{{membre.email}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
