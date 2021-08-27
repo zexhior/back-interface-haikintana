@@ -107,10 +107,16 @@ export class ProfilComponent implements OnInit {
     for(let presence of this.membre.presencemembre){
       this.listeActivite.push(await this.membreService.getElementById(this.membreService.liste.activite, presence.activite));
     }
-    this.urlImage = this.urlImage + this.membre.photoprofil.photo;
-    this.value = this.membre.id+"*"+this.membre.last_name+
-    "*"+this.membre.first_name+"*"+this.membre.photoprofil+"*";+this.membre.statut;
-    this.statut = this.membre.statut;
+    if(this.membre.photoprofil != undefined){
+      this.urlImage = this.urlImage + this.membre.photoprofil.photo;
+      this.value = this.membre.id+"*"+this.membre.last_name+
+      "*"+this.membre.first_name+"*"+this.membre.photoprofil+"*";+this.membre.statut;
+      this.statut = this.membre.statut;
+    }else{
+      this.value = this.membre.id+"*"+this.membre.last_name+
+      "*"+this.membre.first_name+"*NULL*";+this.membre.statut;
+      this.statut = this.membre.statut;
+    }
   }
 
   /*---------------------- Manipulation des informations du membre----------------------------------- */

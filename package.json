@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
+    "heroku-build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "~11.2.9",
+    "@angular/compiler-cli": "~11.2.10",
     "@angular/animations": "~11.2.10",
     "@angular/cdk": "^11.2.13",
     "@angular/common": "~11.2.10",
@@ -27,6 +30,7 @@
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "angular-lz-string": "^1.0.5",
     "bootstrap": "^4.6.0",
+    "express": "^4.17.1",
     "huffman-url-compressor": "^1.0.2",
     "jquery": "^3.6.0",
     "ng-lz-string": "^1.5.3",
@@ -37,6 +41,7 @@
     "rxjs": "~6.6.0",
     "sass": "^1.32.12",
     "tslib": "^2.0.0",
+    "typescript": "~4.1.5",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
@@ -57,5 +62,9 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.1.5"
+  }
+  "engines" : {
+    "node": "12.10.2",
+    "npm": "6.14.5"
   }
 }

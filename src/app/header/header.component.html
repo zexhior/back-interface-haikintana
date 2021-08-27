@@ -20,7 +20,8 @@
         <div class="profil">
             <button class="btn btn-info deconnexion" (click)="logout()">Deconnexion</button>
             <a [routerLink]="['/manager/profil',id]" class="img-profil">
-                <img class="img-profil" [src]="urlImage">
+                <img *ngIf="photo" class="img-profil" [src]="urlImage">
+                <img *ngIf="!photo" class="img-profil" src="../../assets/profil.jpg" title="../../assets/profil.jpg">
             </a>
             <div class="dropdown">
                 <button id="boutton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,7 +29,8 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="boutton">
                     <a [routerLink]="['/manager/profil',id]" class="dropdown-item">
-                        <img class="drop-img-profil" [src]="urlImage" [title]="urlImage">
+                        <img *ngIf="photo"class="drop-img-profil" [src]="urlImage" [title]="urlImage">
+                        <img *ngIf="!photo" class="drop-img-profil" src="../../assets/profil.jpg" title="../../assets/profil.jpg">
                         <div class="nom">
                             <p>{{nom}}</p>
                         </div>

@@ -58,7 +58,8 @@
             </div>
             <div [routerLink]="['/manager/profil',membre.id]" class="card">
                 <div class="card-header">
-                    <img class="photoprofil" [src]="base_url+membre.photoprofil.photo" [title]="[base_url,membre.photo]">
+                    <img *ngIf="membre.photoprofil" class="photoprofil" [src]="base_url+membre.photoprofil.photo" [title]="[base_url,membre.photo]">
+                    <img *ngIf="!membre.photoprofil" class="photoprofil" src="../../assets/profil.jpg" title="../../assets/profil.jpg">
                 </div>
                 <div class="card-body">
                     <div class="card-title">

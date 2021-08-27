@@ -1,5 +1,5 @@
 export class Liste{
-    base = "http://127.0.0.1:8000"; 
+    base = "http://haikintana-api.herokuapp.com"; 
     membre = "membres";
     mail = "mails";
     fb = "fbs";

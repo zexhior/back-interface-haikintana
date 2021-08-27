@@ -13,7 +13,7 @@ export class AuthService {
 
   public httpOptions: any;
 
-  private baseUrl = "http://127.0.0.1:8000/api";
+  private baseUrl = "https://haikintana-api.herokuapp.com/api";
 
   constructor(private http: HttpClient) { 
     this.token = localStorage.getItem('token');

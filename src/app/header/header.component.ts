@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
+import { PhotoProfil } from '../photoprofil';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit {
   public id: number;
   public urlImage: string;
   public nom: string;
+  public photo:PhotoProfil;
   constructor(private membreService: MembreService, 
     private auth_service: AuthService,
     private route: Router) {
@@ -27,6 +29,7 @@ export class HeaderComponent implements OnInit {
     var membre = await this.membreService.getProfil<Membre>();
     this.nom = membre.last_name;
     this.id = membre.id;
+    this.photo = membre.photoprofil;
     var photo = membre.photoprofil.photo;
     this.urlImage = this.membreService.liste.base + photo;
   }

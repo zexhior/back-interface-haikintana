@@ -64,13 +64,15 @@
                 <div class="card-body participant">
                     <div *ngFor="let participant of participants" class="membre">
                         <span class="membre-div">
-                            <img class="photoprofil" [src]="base_url+participant.photoprofil.photo" width="50px" height="50px">
+                            <img *ngIf="participant.photoprofil" class="photoprofil" [src]="base_url+participant.photoprofil.photo" width="50px" height="50px">
+                            <img *ngIf="!participant.photoprofil" class="photoprofil" src="../../assets/profil.jpg" width="50px" height="50px">
                             {{participant.last_name}}
+                            
                         </span>
                     </div>
                 </div>
             </div>
-            <button *ngIf="id == 0 && is_staff" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
+            <button *ngIf="id == 0" type="submit" class="btn btn-info" (click)="onSubmit()">Creer</button>
             <button *ngIf="id != 0 && is_staff" type="submit" class="btn btn-info" (click)="onSubmit()">Modifier</button>
         </div>
         <div class="col-12 col-lg-7 description">
@@ -95,7 +97,7 @@
                             </div>
                         </div>
                         <div class="input-file-container">
-                            <button *ngIf="is_staff || is_current_membre" class="btn btn-info" type="button" (click)="fileInput.click()">
+                            <button class="btn btn-info" type="button" (click)="fileInput.click()">
                                 <span>Upload</span>
                                 <input #fileInput type="file" (change)="addImage($event,paragraphe)" style="display:none;" />
                             </button>

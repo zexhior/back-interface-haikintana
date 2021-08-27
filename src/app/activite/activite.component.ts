@@ -23,14 +23,16 @@ export class ActiviteComponent implements OnInit {
   public is_staff: boolean = false;
   constructor(private membreService: MembreService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    var membre = await this.membreService.getProfil<Membre>();
+    this.is_staff = membre.statut.is_staff;
     this.getAllCategorie();
     this.urlImage = this.membreService.liste.base;
   }
 
   async delete(element) {
+    var actvt = this.listeActivite.splice(this.listeActivite.findIndex(data=> data == element),1);
     var reponse = await this.membreService.suppresionElement(this.membreService.liste.activite, element.id, element);
-    location.reload();
   }
 
   getAllActivite(categorie: string){
@@ -53,8 +55,6 @@ export class ActiviteComponent implements OnInit {
     );
     this.categorie = this.listeCategorie[0].type;
     this.getAllActivite(this.categorie);
-    var membre = await this.membreService.getProfil<Membre>();
-    this.is_staff = membre.statut.is_staff;
   }
 
   modifierCategorie(){
