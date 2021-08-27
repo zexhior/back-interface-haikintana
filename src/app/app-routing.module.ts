@@ -15,6 +15,7 @@ import { AuthGuard} from './auth-guard.service'
 import { OtherGuard } from './other-guard.service';
 
 const routes: Routes = [
+  {path: '', pathMatch: 'full', redirectTo: '/manager'},
   {path: 'login', component: LoginComponent,canActivate: [AuthGuard],},
   {path: 'manager', component: ManagerComponent,
     canActivate: [OtherGuard],
