@@ -259,7 +259,6 @@ $pos-y-sac: $pos-y-tronc - $h-tete / 6;
     border-radius: 50%;
     margin-top: 10px;
     overflow: hidden;
-    /*transform: translate($pos-x-corps , $pos-y-corps);*/
     & .sac{
         position: absolute;
         background-color: $clr-sac;
@@ -287,13 +286,11 @@ $pos-y-sac: $pos-y-tronc - $h-tete / 6;
             border-radius: 80% 80% 70%70%;
             transform: translate($pos-x-casque1,$pos-y-casque1);
             overflow: hidden;
-            /*border-top: $border solid;*/
             & .casque2{
                 background-color: $clr-shadow;
                 width: $w-casque2;
                 height: $h-casque2;
                 transform: translate($pos-x-casque2,$pos-y-casque2);
-                /*border-top: $border solid;*/
             }
         }
         & .oreille1{
@@ -301,7 +298,6 @@ $pos-y-sac: $pos-y-tronc - $h-tete / 6;
             width: $w-oreille;
             height: $h-oreille;
             border-radius: 100% 0% 0% 100%;
-            /*border-left: $border solid;*/
             transform: translate($pos-x-oreille1,$pos-y-oreille1);
         }
         & .oreille2{
@@ -309,7 +305,6 @@ $pos-y-sac: $pos-y-tronc - $h-tete / 6;
             width: $w-oreille;
             height: $h-oreille;
             border-radius: 0% 100% 100% 0%;
-            /*border-left: $border solid;*/
             transform: translate($pos-x-oreille2,$pos-y-oreille2);
         }
         & .a-vitre{
