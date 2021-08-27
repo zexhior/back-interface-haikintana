@@ -28,7 +28,8 @@ import { AuthService } from './auth.service';
 import {CarouselModule} from 'ngx-bootstrap/carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule} from '@angular/material/slider';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
+    },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
     }
   ],
   bootstrap: [AppComponent]
