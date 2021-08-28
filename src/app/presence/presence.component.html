@@ -1,5 +1,6 @@
 <div class="container jumbotron">
-    <img class="photoprofil" [src]="urlImage" width="300px" height="300px">
+    <img *ngIf="membre.photoprofil" class="photoprofil" [src]="urlImage" width="300px" height="300px">
+    <img *ngIf="!membre.photoprofil" class="photoprofil" src="../../assets/profil.jpg" width="300px" height="300px">
     <h1>{{membre.last_name}}</h1>
     <p>est déclaré présent</p>
 </div>

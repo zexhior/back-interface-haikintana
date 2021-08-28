@@ -23,10 +23,10 @@ $clr-modification: #FFD700;
     width: $width;
     height: $height + $espace;
     margin: 0px auto;
-    
+    text-align: center;
     & .boutton{
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         margin: 0px auto;
     }
 }

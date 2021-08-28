@@ -33,16 +33,13 @@ export class QrcodeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mySub = interval(3000).subscribe(()=>{
-      this.trigger.next();
-    });
   }
 
-  /*triggerSnapshot(): void{
-    this.mySub = interval(3000).subscribe(()=>{
+  triggerSnapshot(): void{
+    //this.mySub = interval(3000).subscribe(()=>{
       this.trigger.next();
-    });
-  }*/
+    //});
+  }
   
   handleImage(webcamImage): void{
     console.info('received webcam image', webcamImage);

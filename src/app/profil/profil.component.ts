@@ -11,8 +11,6 @@ import { Fb } from '../fb';
 import { Mail } from '../mail';
 import { Statut } from '../statut';
 import { AuthService } from '../auth.service';
-import {createEncoder, encodeConfig, decodeConfig} from 'huffman-url-compressor';
-import { User } from '../user';
 import { Activite } from '../activite';
 
 @Component({
@@ -45,7 +43,6 @@ export class ProfilComponent implements OnInit {
   public current_id: number;
 
   private onChangeProfil: boolean = false;
-  private user: User = new User();
   private formData = new FormData();
   private new_statut = new Statut();
 

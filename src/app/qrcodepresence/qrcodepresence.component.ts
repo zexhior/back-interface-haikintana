@@ -38,17 +38,17 @@ export class QrcodepresenceComponent implements OnInit {
 
   ngOnInit(): void {
     this.position = this.route_activate.snapshot.params['pos'];
-    this.mySub = interval(3000).subscribe(()=>{
+    /*this.mySub = interval(3000).subscribe(()=>{
       this.trigger.next();
-    });
+    });*/
   }
 
   trigger: Subject<void> = new Subject<void>();
 
   triggerSnapshot(): void{
-    this.mySub = interval(3000).subscribe(()=>{
+    //this.mySub = interval(3000).subscribe(()=>{
       this.trigger.next();
-    });
+    //});
   }
   
   async handleImage(webcamImage): Promise<void>{

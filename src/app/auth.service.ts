@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Membre } from './membre';
-import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -22,15 +20,6 @@ export class AuthService {
         {'Content-Type': 'application/json'}  
       )
     }
-  }
-
-  async creationUser(user: User): Promise<User>{
-    var u = JSON.stringify(user);
-    return await this.http.post<User>(`${this.baseUrl}/users/`,u).toPromise().then(
-      data => {
-        return data;
-      }
-    );
   }
 
   updateToken(token){
