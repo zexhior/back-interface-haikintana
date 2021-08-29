@@ -22,6 +22,8 @@ export class QrcodeComponent implements OnInit {
 
   public webcamImage: WebcamImage = null;
 
+  public switchCamera = true;
+
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = "";
