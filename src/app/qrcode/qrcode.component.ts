@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Directive } from '@angular/core';
-import { WebcamImage } from 'ngx-webcam';
+import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { Image } from '../image';
 import { Membre } from '../membre';
@@ -21,8 +21,11 @@ export class QrcodeComponent implements OnInit {
   public image: Image;
 
   public webcamImage: WebcamImage = null;
-
+  public multipleWebcamAvailable = false;
+  public deviceId: string;
   public switchCamera = true;
+  public facingMode: string = 'environment';
+  public errors: WebcamInitError[] = [];
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -35,6 +38,9 @@ export class QrcodeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    WebcamUtil.getAvailableVideoInputs().then((mediaDevices: MediaDeviceInfo[])=>{
+      this.multipleWebcamAvailable = mediaDevices && mediaDevices.length > 1;
+    })
   }
 
   triggerSnapshot(): void{
@@ -63,5 +69,20 @@ export class QrcodeComponent implements OnInit {
 
   public get triggerObservable(): Observable<void>{
     return this.trigger.asObservable();
+  }
+
+  public get videoOptions(): MediaTrackConstraints{
+    const result: MediaTrackConstraints = {};
+    if(this.facingMode && this.facingMode != ''){
+      result.facingMode = {ideal: this.facingMode};
+    }
+    return result;
+  }
+
+  public handleInitError(error: WebcamInitError){
+    if(error.mediaStreamError && error.mediaStreamError.name === 'NotAllowedError'){
+      console.warn("La camera acces refusé");
+    }
+    this.errors.push(error);
   }
 }

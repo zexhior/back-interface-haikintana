@@ -50,7 +50,16 @@ $clr-nav: rgba(0, 0, 161, 0.726);
             margin: 0px 10px 0px 10px;
         }
     }
+    & .statut{
+        & .staff{
+            margin-left: 30px;
+            & label{
+                margin-right: 10px
+            }
+        }
+    }
     & .row{
+        margin-top: 10px;
         & .boutton{
             float: right;
         }

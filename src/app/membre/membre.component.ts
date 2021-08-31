@@ -19,6 +19,7 @@ export class MembreComponent implements OnInit {
   public position = 1;
   public base_url: string;
   public is_staff: boolean;
+  public staff_statut: boolean;
 
   constructor(private membreService: MembreService) { }
 
@@ -41,6 +42,7 @@ export class MembreComponent implements OnInit {
     );
     var membre = await this.membreService.getProfil<Membre>();
     this.is_staff = membre.statut.is_staff;
+    this.staff_statut = this.liste_statut[0].is_staff;
   }
 
   async getStatut(id): Promise<string>{
@@ -71,6 +73,7 @@ export class MembreComponent implements OnInit {
 
   async selectionnerStatut(statut: Statut){
     this.statut = statut.poste;
+    this.staff_statut = statut.is_staff;
     this.liste_membre = await this.membreService.getMembreFilter(this.membreService.liste.membre, this.statut).toPromise().then(
       data =>{
         return data;
@@ -98,6 +101,7 @@ export class MembreComponent implements OnInit {
     this.creation_statut = false;
     var statut = new Statut();
     statut.poste = this.new_statut;
+    statut.is_staff = this.staff_statut;
     statut = await this.membreService.createElement(this.membreService.liste.statut, statut);
     this.liste_statut.push(statut);
   }
@@ -106,7 +110,15 @@ export class MembreComponent implements OnInit {
     this.modification_statut = false;
     var statut = this.liste_statut.find(data=>data.poste == this.statut);
     statut.poste = this.new_statut;
+    statut.is_staff = this.staff_statut;
     statut = await this.membreService.updateElementById(this.membreService.liste.statut, statut.id, statut);
   }
 
+  async changeStaff(){
+    if(this.staff_statut){
+      this.staff_statut = false;
+    }else{
+      this.staff_statut = true;
+    }
+  }
 }

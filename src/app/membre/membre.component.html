@@ -38,10 +38,14 @@
     </div>
     <div *ngIf="modification_statut || creation_statut" class="card statut">
         <div class="card-header">
-            Categorie
+            Statut
         </div>
         <div class="card-body">
             <input class="form-control" type="text" [(ngModel)]="new_statut">
+        </div>
+        <div class="staff" >
+            <label><p>Administrateur</p></label>
+            <input [(ngModel)]="staff_statut" (change)="changeStatut(statut)" type="checkbox"/>
         </div>
         <button *ngIf="creation_statut" (click)="createStatut()" class="btn btn-info">Creer</button>
         <button *ngIf="modification_statut" (click)="updateStatut(statut)" class="btn btn-info">Modifier</button>
