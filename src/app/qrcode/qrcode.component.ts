@@ -81,6 +81,10 @@ export class QrcodeComponent implements OnInit {
     return result;
   }
 
+  public get nextWebcamObservable(): Observable<boolean|string> {
+    return this.nextWebcam.asObservable();
+  }
+
   public showNextWebcam(directionOrDeviceId: boolean|string): void {
     this.nextWebcam.next(directionOrDeviceId);
   }
