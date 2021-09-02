@@ -20,10 +20,6 @@ $clr-modification: #FFD700;
 }
 
 .camera{
-    width: $width;
-    height: $height + $espace;
-    & .boutton{
-        width: 100px;
-        height: 100px;
-    }
+    margin: 0px auto;
+    text-align: center;
 }
