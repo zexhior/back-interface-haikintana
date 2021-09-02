@@ -30,7 +30,9 @@ export class HeaderComponent implements OnInit {
     this.nom = membre.last_name;
     this.id = membre.id;
     this.photo = membre.photoprofil;
-    var photo = membre.photoprofil.photo;
+    if(this.photo != undefined){
+      var photo = membre.photoprofil.photo;
+    }
     this.urlImage = this.membreService.liste.base + photo;
   }
 
