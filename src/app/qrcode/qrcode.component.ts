@@ -26,6 +26,8 @@ export class QrcodeComponent implements OnInit {
   public switchCamera = true;
   public facingMode: string = 'environment';
   public errors: WebcamInitError[] = [];
+  private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
+  public showWebcam = true;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -77,6 +79,10 @@ export class QrcodeComponent implements OnInit {
       result.facingMode = {ideal: this.facingMode};
     }
     return result;
+  }
+
+  public showNextWebcam(directionOrDeviceId: boolean|string): void {
+    this.nextWebcam.next(directionOrDeviceId);
   }
 
   public handleInitError(error: WebcamInitError){

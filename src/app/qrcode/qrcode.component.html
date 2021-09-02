@@ -2,7 +2,11 @@
     <h3>Qrcode profil</h3>
 </div>
 <div class="camera">
-  <webcam [width]="500" [height]="500" [trigger]="triggerObservable" [allowCameraSwitch]="switchCamera" 
+  <webcam [width]="500" 
+  [height]="500" 
+  [trigger]="triggerObservable" 
+  [allowCameraSwitch]="switchCamera" 
+  *ngIf="showWebcam"
   [videoOptions]="videoOptions" 
   [imageQuality]=1
   (imageCapture)="handleImage($event)" 
