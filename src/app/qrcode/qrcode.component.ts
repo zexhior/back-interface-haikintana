@@ -20,14 +20,16 @@ export class QrcodeComponent implements OnInit {
 
   public image: Image;
 
-  public webcamImage: WebcamImage = null;
-  public multipleWebcamAvailable = false;
+  public showWebcam = true;
+  public allowCameraSwitch = true;
+  public multipleWebcamsAvailable = false;
   public deviceId: string;
-  public switchCamera = true;
   public facingMode: string = 'environment';
   public errors: WebcamInitError[] = [];
+
+  public webcamImage: WebcamImage = null;
+  public switchCamera = true;
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
-  public showWebcam = true;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -41,7 +43,7 @@ export class QrcodeComponent implements OnInit {
 
   ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs().then((mediaDevices: MediaDeviceInfo[])=>{
-      this.multipleWebcamAvailable = mediaDevices && mediaDevices.length > 1;
+      this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
     })
   }
 
@@ -73,26 +75,36 @@ export class QrcodeComponent implements OnInit {
     return this.trigger.asObservable();
   }
 
-  public get videoOptions(): MediaTrackConstraints{
-    const result: MediaTrackConstraints = {};
-    if(this.facingMode && this.facingMode != ''){
-      result.facingMode = {ideal: this.facingMode};
-    }
-    return result;
+  public toggleWebcam(): void {
+    this.showWebcam = !this.showWebcam;
   }
 
-  public get nextWebcamObservable(): Observable<boolean|string> {
-    return this.nextWebcam.asObservable();
+  public handleInitError(error: WebcamInitError): void {
+    if (error.mediaStreamError && error.mediaStreamError.name === 'NotAllowedError') {
+      console.warn('Camera access was not allowed by user!');
+    }
+    this.errors.push(error);
   }
 
   public showNextWebcam(directionOrDeviceId: boolean|string): void {
     this.nextWebcam.next(directionOrDeviceId);
   }
 
-  public handleInitError(error: WebcamInitError){
-    if(error.mediaStreamError && error.mediaStreamError.name === 'NotAllowedError'){
-      console.warn("La camera acces refusé");
+  public cameraWasSwitched(deviceId: string): void {
+    console.log('active device: ' + deviceId);
+    this.deviceId = deviceId;
+  }
+
+  public get nextWebcamObservable(): Observable<boolean|string> {
+    return this.nextWebcam.asObservable();
+  }
+
+  public get videoOptions(): MediaTrackConstraints {
+    const result: MediaTrackConstraints = {};
+    if (this.facingMode && this.facingMode !== '') {
+      result.facingMode = { ideal: this.facingMode };
     }
-    this.errors.push(error);
+
+    return result;
   }
 }
