@@ -41,6 +41,7 @@ export class ProfilComponent implements OnInit {
   public is_staff: boolean = false;
   public is_current_membre: boolean = true;
   public current_id: number;
+  public chargement:boolean = true;
 
   private onChangeProfil: boolean = false;
   private formData = new FormData();
@@ -94,6 +95,7 @@ export class ProfilComponent implements OnInit {
     }else{
       this.is_current_membre = false;
     }
+    this.chargement = false;
   }
 
   
@@ -119,17 +121,20 @@ export class ProfilComponent implements OnInit {
   /*---------------------- Manipulation des informations du membre----------------------------------- */
 
   async callServiceToSaveMembre(): Promise<void>{
-    await this.saveNumeros();
-    await this.saveFbs();
-    await this.saveMails();
     if(this.id == 0){
       console.log("create membre");
       this.membre.id = (await this.membreService.createElement(this.membreService.liste.membre, this.membre)).id;
       console.log(this.membre);
-      await this.callServiceToSavePhoto();
+      await this.saveNumeros();
+      await this.saveFbs();
+      await this.saveMails();
+      this.callServiceToSavePhoto();
     }
     else{
       console.log("update membre");
+      await this.saveNumeros();
+      await this.saveFbs();
+      await this.saveMails();
       this.callServiceToSavePhoto();
       if(this.membre.password == undefined){
         this.membre.password = "a";
@@ -141,8 +146,7 @@ export class ProfilComponent implements OnInit {
   /*---------------------- Retour vers la liste des membres----------------------------------- */
 
   goToListeMembre(){
-    //this.routeLink.navigate(['/manager/membre']);
-    location.reload();
+    this.routeLink.navigate(['/manager/membre']);
   }
 
 

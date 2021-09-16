@@ -34,6 +34,7 @@ export class DetailActiviteComponent implements OnInit {
   public modificationDescription: boolean = false;
   public is_staff: boolean= false;
   public presence: boolean= false;
+  public chargement: boolean= true;
   noWrapSlides = false;
   showIndicator = true;
   private counter_image = 0;
@@ -45,6 +46,7 @@ export class DetailActiviteComponent implements OnInit {
     this.base_url = this.membreService.liste.base;
     this.id = this.route.snapshot.params['id'];
     await this.membreService.getElementList(this.membreService.liste.categorie).toPromise().then((data)=>{
+      this.chargement = false;
       this.listeCategorie = data;
     });
     if(this.id == 0){

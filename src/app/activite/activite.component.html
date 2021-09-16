@@ -12,8 +12,8 @@
             </a>
         </div>
     </div>
-    <app-chargement [chargement]="listeCategorie.length == 0 && listeActivite.length == 0"></app-chargement>
-    <div class="navbar navbar-expand liste-categorie">
+    <app-chargement [chargement]="chargement"></app-chargement>
+    <div *ngIf="!chargement" class="navbar navbar-expand liste-categorie">
         <ul *ngFor="let categorie of listeCategorie" class="navbar-nav">
             <li class="nav-item categorie">
                 <button (click)="getAllActivite(categorie.type)" class="btn btn-categorie">
@@ -36,7 +36,7 @@
             </svg>
         </button>
     </div>
-    <div *ngIf="modificationCategorie || creationCategorie" class="card categorie">
+    <div *ngIf="!chargement && (modificationCategorie || creationCategorie)" class="card categorie">
         <div class="card-header">
             Categorie
         </div>
@@ -46,7 +46,7 @@
         <button *ngIf="creationCategorie" (click)="createCategorie()" class="btn btn-info">Creer</button>
         <button *ngIf="modificationCategorie" (click)="updateCategorie(categorie)" class="btn btn-info">Modifier</button>
     </div>
-    <div class="row">
+    <div *ngIf="!chargement" class="row">
         <div *ngFor="let activite of listeActivite" class="col-12">
             <div class="card">
                 <div class="card-body">

@@ -21,6 +21,7 @@ export class ActiviteComponent implements OnInit {
   public modificationCategorie: boolean = false;
   public creationCategorie: boolean = false;
   public is_staff: boolean = false;
+  public chargement: boolean = true;
   constructor(private membreService: MembreService) { }
 
   async ngOnInit(){
@@ -42,6 +43,7 @@ export class ActiviteComponent implements OnInit {
     this.listeActivite = new Array<Activite>();
     this.membreService.getActiviteFilter(this.membreService.liste.activite,categorie).toPromise().then(
       data => {
+        this.chargement = false;
         this.listeActivite = data;
       }
     );

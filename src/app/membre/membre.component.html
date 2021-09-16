@@ -17,9 +17,9 @@
             </a>
         </div>
     </div>
-    <app-chargement [chargement]="liste_statut.length == 0 && liste_membre.length == 0"></app-chargement>
-    <div class="navbar navbar-expand liste-statut">
-        <div *ngFor="let statut of liste_statut"class="navbar-nav">
+    <app-chargement [chargement]="chargement"></app-chargement>
+    <div *ngIf="!chargement" class="navbar navbar-expand liste-statut">
+        <div *ngFor="let statut of liste_statut" class="navbar-nav">
             <div class="nav-item"><button class="btn btn-statut" (click)="selectionnerStatut(statut)">{{statut.poste}}</button></div>
         </div>
         <button *ngIf="is_staff" (click)="creerStatut()" class="btn btn-info">
@@ -37,7 +37,7 @@
             </svg>
         </button>
     </div>
-    <div *ngIf="modification_statut || creation_statut" class="card statut">
+    <div *ngIf="!chargement && (modification_statut || creation_statut)" class="card statut">
         <div class="card-header">
             Statut
         </div>
@@ -51,7 +51,7 @@
         <button *ngIf="creation_statut" (click)="createStatut()" class="btn btn-info">Creer</button>
         <button *ngIf="modification_statut" (click)="updateStatut(statut)" class="btn btn-info">Modifier</button>
     </div>
-    <div class="row">
+    <div *ngIf="!chargement" class="row">
         <div *ngFor="let membre of liste_membre" class="col-12 col-lg-3">
             <div class="boutton">
                 <button *ngIf="is_staff" class="btn btn-info" (click)="delete(membre)">

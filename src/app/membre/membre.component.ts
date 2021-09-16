@@ -20,6 +20,7 @@ export class MembreComponent implements OnInit {
   public base_url: string;
   public is_staff: boolean;
   public staff_statut: boolean;
+  public chargement:boolean = true;
 
   constructor(private membreService: MembreService) { }
 
@@ -31,6 +32,7 @@ export class MembreComponent implements OnInit {
   async getAllMembre(){
     this.liste_statut = await this.membreService.getElementList(this.membreService.liste.statut).toPromise().then(
       async data => {
+        this.chargement = false;
         if(data[0]==undefined){
           var statut = new Statut();
           statut.poste = "Administrateurs";

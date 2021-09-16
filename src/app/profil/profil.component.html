@@ -5,7 +5,8 @@
         <h3>Profil</h3>
       </span>
   </div>
-  <div class="row">
+  <app-chargement [chargement]="chargement"></app-chargement>
+  <div *ngIf="!chargement" class="row">
     <div class="col-12 col-md-4 col-lg-4 detail-profil ">
       <div class="photoprofil">
         <div *ngIf="membre.photoprofil" class="image-profil">
