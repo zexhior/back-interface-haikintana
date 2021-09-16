@@ -38,6 +38,7 @@ export class ActiviteComponent implements OnInit {
 
   getAllActivite(categorie: string){
     this.categorie = categorie;
+    this.chargement = true;
     this.new_categorie = this.categorie;
     delete this.listeActivite;
     this.listeActivite = new Array<Activite>();

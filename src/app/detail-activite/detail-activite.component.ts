@@ -46,7 +46,6 @@ export class DetailActiviteComponent implements OnInit {
     this.base_url = this.membreService.liste.base;
     this.id = this.route.snapshot.params['id'];
     await this.membreService.getElementList(this.membreService.liste.categorie).toPromise().then((data)=>{
-      this.chargement = false;
       this.listeCategorie = data;
     });
     if(this.id == 0){
@@ -67,6 +66,7 @@ export class DetailActiviteComponent implements OnInit {
         this.presence = true;
       }
     }
+    this.chargement = false;
   }
 
   retournerActivite(){

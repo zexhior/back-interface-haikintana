@@ -18,11 +18,11 @@
             </div>
         </div>
         <div class="profil">
-            <button class="btn btn-info deconnexion" (click)="logout()">Deconnexion</button>
             <a [routerLink]="['/manager/profil',id]" class="img-profil">
                 <img *ngIf="photo" class="img-profil" [src]="urlImage">
                 <img *ngIf="!photo" class="img-profil" src="../../assets/profil.jpg" title="../../assets/profil.jpg">
             </a>
+            <button class="btn btn-info deconnexion" (click)="logout()">Deconnexion</button>
             <div class="dropdown">
                 <button id="boutton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="navbar-toggler-icon"></span>

@@ -85,10 +85,12 @@ export class MembreComponent implements OnInit {
   }
 
   async selectionnerStatut(statut: Statut){
+    this.chargement = true;
     this.statut = statut.poste;
     this.staff_statut = statut.is_staff;
     this.liste_membre = await this.membreService.getMembreFilter(this.membreService.liste.membre, this.statut).toPromise().then(
       data =>{
+        this.chargement = false;
         return data;
       }
     );
