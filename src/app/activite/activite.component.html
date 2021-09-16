@@ -12,6 +12,7 @@
             </a>
         </div>
     </div>
+    <app-chargement [chargement]="listeCategorie.length == 0 && listeActivite.length == 0"></app-chargement>
     <div class="navbar navbar-expand liste-categorie">
         <ul *ngFor="let categorie of listeCategorie" class="navbar-nav">
             <li class="nav-item categorie">

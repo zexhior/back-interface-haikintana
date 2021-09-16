@@ -1,8 +1,13 @@
 <div class="modification">
   <h3>Qrcode presence</h3>
 </div>
-<div class="camera">
-  <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+<app-chargement [chargement]="chargement"></app-chargement>
+<div *ngIf="!chargement" class="camera">
+  <webcam [trigger]="triggerObservable" [allowCameraSwitch]="switchCamera" 
+  [videoOptions]="videoOptions" 
+  [imageQuality]="1"
+  (imageCapture)="handleImage($event)" 
+  (initError)="handleInitError($event)"></webcam>
   <!-- Button Takes Photo-->
   <p>{{message}}</p>
   <button class="actionBtn btn btn-info" (click)="triggerSnapshot();">

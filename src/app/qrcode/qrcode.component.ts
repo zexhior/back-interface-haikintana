@@ -20,6 +20,10 @@ export class QrcodeComponent implements OnInit {
 
   public image: Image;
 
+  public message: string;
+
+  public chargement: boolean = false;
+
   public webcamImage: WebcamImage = null;
   public multipleWebcamAvailable = false;
   public deviceId: string;
@@ -41,7 +45,8 @@ export class QrcodeComponent implements OnInit {
 
   triggerSnapshot(): void{
     //this.mySub = interval(3000).subscribe(()=>{
-      this.trigger.next();
+    this.chargement = true;  
+    this.trigger.next();
     //});
   }
   
@@ -54,6 +59,8 @@ export class QrcodeComponent implements OnInit {
       data =>{
         console.log("Data enregistrer");
         if(data == ""){
+          this.chargement = false;
+          this.message = "Membre introuvable";
           console.log("none");
         }else{
           this.membre = data;

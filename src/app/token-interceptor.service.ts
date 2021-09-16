@@ -9,7 +9,8 @@ import { AuthService } from './auth.service';
 })
 export class TokenInterceptorService implements HttpInterceptor{
   private is_refreshing = false;
-  private baseUrl = "https://haikintana-api.herokuapp.com/api"; 
+  //private baseUrl = "https://haikintana-api.herokuapp.com/api"; 
+  private baseUrl = "http://127.0.0.1:8000/api";
 
   constructor(private authService: AuthService, private httpClient: HttpClient) { }
   

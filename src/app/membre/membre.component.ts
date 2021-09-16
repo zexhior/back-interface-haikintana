@@ -30,8 +30,19 @@ export class MembreComponent implements OnInit {
 
   async getAllMembre(){
     this.liste_statut = await this.membreService.getElementList(this.membreService.liste.statut).toPromise().then(
-      data => {
-        this.statut = data[0].poste;
+      async data => {
+        if(data[0]==undefined){
+          var statut = new Statut();
+          statut.poste = "Administrateurs";
+          statut.is_staff = true;
+          statut = await this.membreService.createElement(this.membreService.liste.statut,statut);
+          var membre = await this.membreService.getProfil<Membre>();
+          membre.statut = statut;
+          membre = await this.membreService.updateElementById(this.membreService.liste.membre,membre.id,membre);
+        }else{
+          this.statut = data[0].poste;
+          console.log(data[0].poste);
+        }
         return data;
       }
     );

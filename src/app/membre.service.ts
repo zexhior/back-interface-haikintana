@@ -12,13 +12,15 @@ import { Membre } from './membre';
 })
 
 export class MembreService {
-  public urlImage: string = "https://haikintana-api.herokuapp.com";
+  //public urlImage: string = "https://haikintana-api.herokuapp.com";
+  public urlImage: string = 'http://127.0.0.1:8000';
 
   public liste: Liste = new Liste;
 
   public element: any = null;
 
-  private baseUrl = "https://haikintana-api.herokuapp.com/api";
+  //private baseUrl = "https://haikintana-api.herokuapp.com/api";
+  private baseUrl = "http://127.0.0.1:8000/api"
 
   private id: number;
 

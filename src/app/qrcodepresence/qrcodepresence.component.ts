@@ -22,6 +22,8 @@ export class QrcodepresenceComponent implements OnInit {
 
   public position: number = 0;
 
+  public chargement: boolean = false;
+
   public image: Image;
 
   public webcamImage: WebcamImage = null;
@@ -52,6 +54,7 @@ export class QrcodepresenceComponent implements OnInit {
 
   triggerSnapshot(): void{
     //this.mySub = interval(3000).subscribe(()=>{
+      this.chargement = true;
       this.trigger.next();
     //});
   }
@@ -65,16 +68,18 @@ export class QrcodepresenceComponent implements OnInit {
       async data =>{
         console.log("Data enregistrer");
         if(data == ""){
-          console.log("none");
+          this.message = "Ce membre est introuvable. Veuillez réessayer";
+          this.chargement = false;
         }else{
           this.membre = data;
           var presence = this.membre.presencemembre.find(data=> data.activite == this.position)
           if(presence == undefined){
             this.message = "Ce membre ne s'est pas inscrit";
-            console.log("popo");
+            this.chargement = false;
           }else{
             if(presence.presence){
               this.message = "Ce membre est deja present";
+              this.chargement = false;
             }else{
               presence.presence = true;
               presence = await this.membreService.updateElementById(this.membreService.liste.presence, presence.id, presence);

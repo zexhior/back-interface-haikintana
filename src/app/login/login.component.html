@@ -5,7 +5,8 @@
                 <div class="image">
                     <img class="img-profil" src="../../assets/profil.jpg" title="../../assets/profil.jpg">
                 </div>
-                <div class="formulaire">
+                <app-chargement [chargement]="chargement"></app-chargement>
+                <div *ngIf="!chargement" class="formulaire">
                     <p class="label">Pseudo</p>
                     <input class="form-control" type="email" [(ngModel)]="username">
                     <p class="label">Mot de passe</p>

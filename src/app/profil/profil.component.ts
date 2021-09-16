@@ -119,6 +119,9 @@ export class ProfilComponent implements OnInit {
   /*---------------------- Manipulation des informations du membre----------------------------------- */
 
   async callServiceToSaveMembre(): Promise<void>{
+    await this.saveNumeros();
+    await this.saveFbs();
+    await this.saveMails();
     if(this.id == 0){
       console.log("create membre");
       this.membre.id = (await this.membreService.createElement(this.membreService.liste.membre, this.membre)).id;
@@ -133,9 +136,6 @@ export class ProfilComponent implements OnInit {
       }
       var membre = await this.membreService.updateElementById(this.membreService.liste.membre, this.id, this.membre);
     }
-    await this.saveNumeros();
-    await this.saveFbs();
-    await this.saveMails();
   }
 
   /*---------------------- Retour vers la liste des membres----------------------------------- */

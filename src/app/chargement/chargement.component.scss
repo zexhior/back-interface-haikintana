@@ -1,0 +1,34 @@
+$clr-modification: #FFD700;
+$cd-bars: $clr-modification;
+$size: 10px;
+$anim-dur: 800ms;
+$num-bars: 5;
+$anim-delay: $anim-dur / $num-bars;
+
+.load{
+    width: $size*10;
+    height: $size*7.5;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    &__bar{
+        background-color: $cd-bars;
+        height: 100%;
+        width: $size;
+        animation: bar $anim-dur alternate ease-in-out backwards infinite;
+        @for $i from 1 through $num-bars{
+            &--#{$i}{
+                animation-delay: $anim-delay*$i;
+            }
+        }
+    }
+}
+
+@keyframes bar{
+    0%{
+        transform: scaleY(0.5);
+    }
+    100%{
+        transform: scaleY(1.0);
+    }
+}

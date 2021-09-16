@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   public username: '';
   public pwd: '';
   public message: string = "";
+  public chargement : boolean = false;
   private user : any;
   constructor(private membreService: MembreService,
     private authService: AuthService,
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   async authentification(){
+    this.chargement = true;
     var element = {"username":this.username,"pwd":this.pwd};
     var test = await this.membreService.authentification(this.membreService.liste.authentification, element);
     if(test['reponse']==true){
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
     }
     else{
       this.message = test['raison'];
+      this.chargement = false;
     }
   }
 

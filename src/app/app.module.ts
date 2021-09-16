@@ -30,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule} from '@angular/material/slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { ChargementComponent } from './chargement/chargement.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { HashLocationStrategy, LocationStrategy} from '@angular/common';
     ResultatComponent,
     PresenceComponent,
     QrcodepresenceComponent,
+    ChargementComponent,
   ],
   imports: [
     BrowserModule,
